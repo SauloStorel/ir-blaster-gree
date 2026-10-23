@@ -1,4 +1,4 @@
-import { AirVent, Droplet, Fan, Flame, Snowflake } from "lucide"
+import { AirVent, Droplet, Fan, Flame, Leaf, Moon, Snowflake, Zap } from "lucide"
 
 export const MIN_TEMP = 16
 export const MAX_TEMP = 30
@@ -39,3 +39,11 @@ export const CHOICES = {
 
 // Posições fixas da aleta, usadas quando o oscilar está desligado.
 export const FIXED_AIRFLOWS = CHOICES.airflow.options.filter((option) => option.value !== "swing")
+
+// Extras liga/desliga: ficam no menu "•••" (um <input id> com o nome do campo) e,
+// quando ativos, aparecem como etiquetas embaixo da temperatura.
+export const EXTRAS = [
+  { field: "turbo", name: "Turbo", icon: Zap },
+  { field: "sleep", name: "Sono", icon: Moon },
+  { field: "eco", name: "Eco", icon: Leaf },
+]

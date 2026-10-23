@@ -8,6 +8,10 @@
   --muted: #8e8e93;
   --accent: #ff4d5a;
   --track: #3a3a3f;
+  --air: #ffffff;
+  --blow: 3s;
+  --air-strength: 0.85;
+  --air-width: 2.2;
   --font: "Inter Variable", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
   color-scheme: dark;
 }
@@ -70,6 +74,45 @@ svg {
   padding: 20px 22px 14px;
 }
 
+.card[data-mode="cool"] {
+  --air: #d4ebff;
+}
+
+.card[data-mode="dry"] {
+  --air: #def4ff;
+}
+
+.card[data-mode="heat"] {
+  --air: #ffd3b0;
+}
+
+.card[data-fan="low"] {
+  --blow: 4.6s;
+  --air-strength: 0.5;
+}
+
+.card[data-fan="high"] {
+  --blow: 1.9s;
+  --air-strength: 1;
+  --air-width: 2.5;
+}
+
+.card[data-fan="turbo"] {
+  --blow: 1.1s;
+  --air-strength: 1;
+  --air-width: 2.9;
+}
+
+/* Botões afundam ao clicar */
+
+button {
+  transition: transform 0.12s ease-out, background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.93);
+}
+
 /* Topo */
 
 .top {
@@ -95,6 +138,17 @@ svg {
 .card:not([data-status="ready"]) .dot {
   background: var(--track);
   box-shadow: none;
+}
+
+.card[data-waiting="true"] .dot {
+  animation: waiting 0.9s ease-in-out infinite;
+}
+
+@keyframes waiting {
+  50% {
+    transform: scale(0.55);
+    opacity: 0.45;
+  }
 }
 
 .power {
@@ -139,6 +193,61 @@ svg {
   transition: opacity 0.3s;
 }
 
+.digits {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.04em;
+}
+
+.digits > span {
+  grid-area: 1 / 1;
+}
+
+.enter-up {
+  animation: enter-up 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.leave-up {
+  animation: leave-up 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.enter-down {
+  animation: enter-down 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.leave-down {
+  animation: leave-down 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes enter-up {
+  from {
+    transform: translateY(55%);
+    opacity: 0;
+  }
+}
+
+@keyframes leave-up {
+  to {
+    transform: translateY(-55%);
+    opacity: 0;
+  }
+}
+
+@keyframes enter-down {
+  from {
+    transform: translateY(-55%);
+    opacity: 0;
+  }
+}
+
+@keyframes leave-down {
+  to {
+    transform: translateY(55%);
+    opacity: 0;
+  }
+}
+
 .tagline {
   display: flex;
   align-items: center;
@@ -149,8 +258,49 @@ svg {
   color: var(--muted);
 }
 
-.card:not([data-status="ready"]) #tagline {
+.card[data-alert="true"] #tagline {
   color: var(--accent);
+}
+
+/* Etiquetas dos extras ativos */
+
+.extras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 26px;
+  margin-top: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px 0 8px;
+  border-radius: 13px;
+  background: rgb(255 77 90 / 0.13);
+  color: var(--accent);
+  font-size: 12.5px;
+  font-weight: 600;
+  animation: chip-in 0.25s ease-out;
+}
+
+.chip svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2;
+}
+
+.chip:hover:not(:disabled) {
+  background: rgb(255 77 90 / 0.22);
+}
+
+@keyframes chip-in {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
 }
 
 .card[data-power="off"] .temp {
@@ -158,6 +308,7 @@ svg {
 }
 
 .unit {
+  cursor: pointer;
   justify-self: end;
   width: 100%;
   max-width: 210px;
@@ -168,6 +319,15 @@ svg {
   width: 100%;
   height: auto;
   filter: drop-shadow(0 10px 18px rgb(0 0 0 / 0.55));
+  transition: transform 0.2s ease-out;
+}
+
+.unit:hover .ac {
+  transform: translateY(-2px);
+}
+
+.unit:active .ac {
+  transform: scale(0.97);
 }
 
 .flow {
@@ -178,26 +338,31 @@ svg {
   opacity: 0;
 }
 
+.flow stop {
+  stop-color: var(--air);
+}
+
 .flow path {
   fill: none;
   stroke: url(#air);
-  stroke-width: 2.2;
+  stroke-width: var(--air-width);
   stroke-linecap: round;
   stroke-dasharray: 52 36;
-  filter: drop-shadow(0 0 5px rgb(255 255 255 / 0.7));
-  animation: blow 3.2s linear infinite;
+  filter: drop-shadow(0 0 5px var(--air));
+  animation: blow var(--blow) linear infinite;
+  transition: stroke-width 0.4s;
 }
 
-.flow path:nth-child(2) {
-  animation-delay: -0.8s;
+.flow path:nth-of-type(2) {
+  animation-delay: calc(var(--blow) / -3);
 }
 
-.flow path:nth-child(3) {
-  animation-delay: -1.6s;
+.flow path:nth-of-type(3) {
+  animation-delay: calc(var(--blow) / -1.5);
 }
 
 .card[data-power="on"] .flow {
-  opacity: 1;
+  opacity: var(--air-strength);
 }
 
 /* Aleta: fechada cobre a saída; aberta aparece abaixo dela, mais fina quanto mais horizontal. */
