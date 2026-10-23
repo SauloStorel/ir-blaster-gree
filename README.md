@@ -84,7 +84,7 @@ arduino-cli compile --profile esp32 .
 ## Onde paramos
 
 - [x] Firmware escrito (IR + Wi-Fi + MQTT).
-- [ ] Compilar: faltava o `python-pyserial` no sistema, que o `esptool` usa.
+- [x] Firmware compilando (69% da flash, 13% da RAM).
 - [ ] Criar o cluster grátis no HiveMQ Cloud e conferir se o certificado é mesmo o ISRG Root X1.
 - [ ] Módulo na barra do Waybar: ícone e temperatura; clique liga/desliga; rolagem muda a
       temperatura; clique direito abre o menu de modo/ventilação. Usa `mosquitto_pub`/`mosquitto_sub`.
