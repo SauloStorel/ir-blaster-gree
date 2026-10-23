@@ -127,8 +127,12 @@ para o Adafruit IO por WebSocket.
 
 ```sh
 app/install                 # Linux: compila e instala em ~/.local/bin/ar-gree-panel
-cd app && npm install && npx tauri build   # Windows: gera o instalador em src-tauri/target/release/bundle/
 ```
+
+O instalador do Windows é gerado pelo GitHub Actions (`.github/workflows/windows-installer.yml`) a cada
+push em `main` que mexa em `app/`, ou manualmente na aba Actions. Ele fica nos artefatos da execução
+(`instalador-windows`). No Windows, o app passa a iniciar com o sistema, escondido na bandeja, já na
+primeira vez que abre; a opção "Iniciar com o sistema" do menu "•••" desliga isso.
 
 No Linux com NVIDIA, a janela é opaca de propósito: com transparência o WebKitGTK não desenha o conteúdo.
 Os cantos arredondados vêm da regra do Hyprland.

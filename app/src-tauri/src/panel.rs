@@ -30,7 +30,10 @@ pub fn setup(app: &mut App) -> Result<(), Box<dyn Error>> {
     });
 
     #[cfg(not(target_os = "linux"))]
-    crate::tray::setup(app)?;
+    {
+        crate::tray::setup(app)?;
+        crate::startup::enable_on_first_run(app)?;
+    }
 
     // Com --hidden (ex.: iniciado junto com o sistema), começa só no ícone.
     if !std::env::args().any(|arg| arg == "--hidden") {

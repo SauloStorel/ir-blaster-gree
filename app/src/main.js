@@ -8,6 +8,7 @@ import { Ellipsis, Minus, Plus, Power, RotateCcwSquare, createElement } from "lu
 import { connect } from "./connection.js"
 import { createPanel } from "./panel.js"
 import { createSettings } from "./settings.js"
+import { setupStartupToggle } from "./startup.js"
 
 const STATIC_ICONS = { power: Power, minus: Minus, plus: Plus, swing: RotateCcwSquare, more: Ellipsis }
 
@@ -49,6 +50,7 @@ document.addEventListener("keydown", (event) => {
 })
 
 async function main() {
+  setupStartupToggle(document.querySelector("#autostart"))
   credentials = await invoke("load_credentials")
   if (credentials) start()
   else openSettings()
