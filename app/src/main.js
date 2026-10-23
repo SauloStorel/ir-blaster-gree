@@ -1,17 +1,15 @@
-import "@fontsource/barlow/400.css"
-import "@fontsource/barlow/500.css"
-import "@fontsource/barlow/600.css"
+import "@fontsource-variable/inter"
 import "./style.css"
 
 import { invoke } from "@tauri-apps/api/core"
 import { getCurrentWindow } from "@tauri-apps/api/window"
-import { Leaf, Minus, Plus, Power, SlidersHorizontal, createElement } from "lucide"
+import { Ellipsis, Minus, Plus, Power, RotateCcwSquare, createElement } from "lucide"
 
 import { connect } from "./connection.js"
 import { createPanel } from "./panel.js"
 import { createSettings } from "./settings.js"
 
-const STATIC_ICONS = { power: Power, leaf: Leaf, minus: Minus, plus: Plus, sliders: SlidersHorizontal }
+const STATIC_ICONS = { power: Power, minus: Minus, plus: Plus, swing: RotateCcwSquare, more: Ellipsis }
 
 document.querySelectorAll("[data-icon]").forEach((slot) => slot.append(createElement(STATIC_ICONS[slot.dataset.icon])))
 

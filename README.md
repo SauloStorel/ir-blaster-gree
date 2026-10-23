@@ -105,7 +105,7 @@ o Adafruit IO. As credenciais ficam em `~/.config/ir-blaster-gree/credentials` (
 | rolar | sobe/desce a temperatura (enviada 0,7 s depois da última rolagem) |
 
 ```sh
-bar/install                               # instala ou atualiza o plugin (o Omarchy não aceita symlink)
+bar/install                               # instala ou atualiza o plugin e reinicia a barra
 omarchy plugin enable storell.ar-gree --section right
 
 bar/ar-gree simulate                      # finge ser o ESP32, para testar sem a placa
@@ -115,8 +115,8 @@ bar/ar-gree watch                         # mostra o estado em tempo real
 
 ## Painel (Windows e Linux)
 
-Em `app/`: um app [Tauri](https://tauri.app) com o painel do ar (liga/desliga, temperatura, modo,
-ventilação, sono, eco e aleta). O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
+Em `app/`: um app [Tauri](https://tauri.app) com o painel "meu canto": liga/desliga, temperatura,
+modo, ventilação e oscilar; no menu "•••", sono, eco, posição da aleta e a conta do Adafruit. O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
 para o Adafruit IO por WebSocket.
 
 - **Linux:** clique no ícone da barra do Omarchy abre e fecha o painel no canto superior direito

@@ -3,60 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ar Gree</title>
+    <title>meu canto</title>
   </head>
   <body>
     <main id="panel" class="card" hidden>
       <header class="top">
-        <span class="room">Ar do quarto</span>
+        <h1 class="brand">meu canto <span class="dot" aria-hidden="true"></span></h1>
         <button id="power" class="power" type="button" aria-label="Ligar ou desligar" data-control data-icon="power"></button>
       </header>
 
-      <section class="unit" aria-hidden="true">
-        <svg class="ac" viewBox="0 0 220 64">
-          <defs>
-            <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#fdfdfc" />
-              <stop offset="1" stop-color="#d6d7d5" />
-            </linearGradient>
-          </defs>
-          <rect x="4" y="4" width="212" height="50" rx="11" fill="url(#ac-body)" />
-          <rect x="16" y="41" width="188" height="7" rx="3.5" fill="#a4a8ab" />
-          <rect x="16" y="41" width="188" height="2" rx="1" fill="#7d8285" />
-          <circle class="led" cx="198" cy="17" r="2.2" />
-        </svg>
-        <div class="flow">
-          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <section class="hero">
+        <div class="reading">
+          <p class="temp"><span id="temp">--</span>°</p>
+          <p id="tagline" class="tagline"></p>
+        </div>
+
+        <div class="unit" aria-hidden="true">
+          <svg class="ac" viewBox="0 0 240 96">
+            <defs>
+              <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset="0.7" stop-color="#e9e9e7" />
+                <stop offset="1" stop-color="#cfd0ce" />
+              </linearGradient>
+              <linearGradient id="ac-vent" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#3a3b3d" />
+                <stop offset="1" stop-color="#0d0d0e" />
+              </linearGradient>
+            </defs>
+            <rect x="4" y="4" width="232" height="84" rx="10" fill="url(#ac-body)" />
+            <rect x="22" y="58" width="196" height="24" rx="4" fill="#dcdcda" />
+            <rect x="28" y="66" width="184" height="14" rx="2" fill="url(#ac-vent)" />
+            <rect x="119" y="66" width="2" height="14" fill="#5a5b5d" />
+            <rect x="196" y="50" width="18" height="2" rx="1" fill="#b9bab8" />
+          </svg>
+          <svg class="flow" viewBox="0 0 240 70">
+            <defs>
+              <linearGradient id="air" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="66">
+                <stop offset="0" stop-color="#ffffff" />
+                <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <path d="M62 4 C58 30 44 50 18 62" />
+            <path d="M120 4 C118 28 122 46 130 66" />
+            <path d="M178 4 C182 30 196 50 222 62" />
+          </svg>
         </div>
       </section>
 
-      <section class="reading">
-        <p class="temp"><span id="temp">--</span><span class="degree">°C</span></p>
-        <label class="eco">
-          <span data-icon="leaf"></span>
-          <span>Eco</span>
-          <input id="eco" type="checkbox" role="switch" data-control />
-        </label>
-      </section>
-
       <section class="adjust">
-        <button id="minus" class="round" type="button" aria-label="Diminuir temperatura" data-control data-icon="minus"></button>
+        <button id="minus" class="step" type="button" aria-label="Diminuir temperatura" data-control data-icon="minus"></button>
         <input id="slider" type="range" min="16" max="30" step="1" aria-label="Temperatura" data-control />
-        <button id="plus" class="round" type="button" aria-label="Aumentar temperatura" data-control data-icon="plus"></button>
+        <button id="plus" class="step" type="button" aria-label="Aumentar temperatura" data-control data-icon="plus"></button>
       </section>
-      <div class="scale"><span>16°</span><span>30°</span></div>
 
-      <section class="tiles"></section>
-
-      <footer class="bottom">
-        <span id="status" class="status"></span>
-        <button id="open-settings" class="ghost" type="button" aria-label="Configurações" data-icon="sliders"></button>
-      </footer>
+      <nav class="controls">
+        <div class="choice" data-field="mode"></div>
+        <div class="choice" data-field="fan"></div>
+        <button id="swing" class="icon-button" type="button" aria-label="Oscilar a aleta" data-control data-icon="swing"></button>
+        <div class="more">
+          <button id="more" class="icon-button" type="button" aria-label="Mais opções" aria-haspopup="menu" data-icon="more"></button>
+          <div id="more-menu" class="menu more-menu" hidden>
+            <label class="menu-row">Sono <input id="sleep" type="checkbox" role="switch" data-control /></label>
+            <label class="menu-row">Eco <input id="eco" type="checkbox" role="switch" data-control /></label>
+            <div class="menu-row">
+              <span>Aleta</span>
+              <div id="airflow" class="segmented"></div>
+            </div>
+            <hr />
+            <button id="open-settings" class="menu-row menu-link" type="button">Conta do Adafruit</button>
+          </div>
+        </div>
+      </nav>
     </main>
 
     <main id="settings" class="card" hidden>
       <form class="settings" autocomplete="off">
-        <h1>Conectar ao Adafruit IO</h1>
+        <h1 class="brand">meu canto <span class="dot" aria-hidden="true"></span></h1>
         <p>Em io.adafruit.com, clique no ícone da chave amarela e copie o usuário e a Active Key.</p>
         <label>Usuário <input id="username" name="username" required spellcheck="false" /></label>
         <label>Active Key <input id="key" name="key" type="password" required spellcheck="false" /></label>

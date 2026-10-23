@@ -13,9 +13,9 @@
     "windows": [
       {
         "label": "panel",
-        "title": "Ar Gree",
-        "width": 400,
-        "height": 490,
+        "title": "meu canto",
+        "width": 440,
+        "height": 390,
         "resizable": false,
         "decorations": false,
         "backgroundColor": "#0c0c0d",

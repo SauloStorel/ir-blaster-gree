@@ -1,43 +1,41 @@
-import { AirVent, Droplet, Fan, Flame, Moon, Snowflake, Wind } from "lucide"
+import { AirVent, Droplet, Fan, Flame, Snowflake } from "lucide"
 
 export const MIN_TEMP = 16
 export const MAX_TEMP = 30
 
-// Escolhas com menu, na ordem em que aparecem. O ícone da opção, quando existe,
-// substitui o do bloco (o modo muda de ícone; ventilação e aleta não).
+// Escolhas com menu. O ícone da opção, quando existe, substitui o da escolha
+// (o modo muda de ícone; a ventilação não).
 export const CHOICES = {
   mode: {
     label: "Modo",
     options: [
-      { value: "cool", name: "Frio", icon: Snowflake },
-      { value: "dry", name: "Seco", icon: Droplet },
-      { value: "fan", name: "Ventilar", icon: Fan },
-      { value: "heat", name: "Quente", icon: Flame },
-      { value: "auto", name: "Automático", icon: AirVent },
+      { value: "cool", name: "frio", icon: Snowflake },
+      { value: "dry", name: "seco", icon: Droplet },
+      { value: "fan", name: "ventilar", icon: Fan },
+      { value: "heat", name: "quente", icon: Flame },
+      { value: "auto", name: "automático", icon: AirVent },
     ],
   },
   fan: {
     label: "Ventilação",
     icon: Fan,
     options: [
-      { value: "auto", name: "Auto" },
-      { value: "low", name: "Baixa" },
-      { value: "medium", name: "Média" },
-      { value: "high", name: "Alta" },
+      { value: "auto", name: "auto" },
+      { value: "low", name: "baixa" },
+      { value: "medium", name: "média" },
+      { value: "high", name: "alta" },
     ],
   },
   airflow: {
     label: "Aleta",
-    icon: Wind,
     options: [
-      { value: "swing", name: "Oscilar" },
-      { value: "up", name: "Cima" },
-      { value: "middle", name: "Meio" },
-      { value: "down", name: "Baixo" },
+      { value: "swing", name: "oscilar" },
+      { value: "up", name: "cima" },
+      { value: "middle", name: "meio" },
+      { value: "down", name: "baixo" },
     ],
   },
 }
 
-export const SLEEP = { label: "Sono", icon: Moon }
-
-export const TILE_ORDER = ["mode", "fan", "sleep", "airflow"]
+// Posições fixas da aleta, usadas quando o oscilar está desligado.
+export const FIXED_AIRFLOWS = CHOICES.airflow.options.filter((option) => option.value !== "swing")

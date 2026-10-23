@@ -1,17 +1,18 @@
-import { ChevronDown, ShieldCheck, WifiOff, createElement } from "lucide"
+import { ChevronDown, createElement } from "lucide"
 
-import { CHOICES, MAX_TEMP, MIN_TEMP, SLEEP, TILE_ORDER } from "./options.js"
+import { CHOICES, FIXED_AIRFLOWS, MAX_TEMP, MIN_TEMP } from "./options.js"
 import { clampTemp } from "./state.js"
 
 // Espera a pessoa parar de ajustar antes de enviar: o plano grátis aceita 30 mensagens por minuto.
 const TEMP_SEND_DELAY_MS = 600
 
-const STATUS = {
-  connecting: { text: "Conectando…", icon: WifiOff },
-  disconnected: { text: "Sem conexão com a internet", icon: WifiOff },
-  unauthorized: { text: "Usuário ou chave do Adafruit inválidos", icon: WifiOff },
-  offline: { text: "ESP32 offline", icon: WifiOff },
-  ready: { text: "Conectado", icon: ShieldCheck },
+// Texto embaixo da temperatura: o slogan quando está tudo certo, o problema quando não está.
+const TAGLINES = {
+  connecting: "conectando…",
+  disconnected: "sem conexão com a internet",
+  unauthorized: "usuário ou chave do Adafruit inválidos",
+  offline: "ESP32 offline",
+  ready: "do jeito certo.",
 }
 
 function element(tag, className, children = []) {
@@ -21,8 +22,8 @@ function element(tag, className, children = []) {
   return node
 }
 
-function controlButton(className) {
-  const button = element("button", className)
+function controlButton(className, children = []) {
+  const button = element("button", className, children)
   button.type = "button"
   button.dataset.control = ""
   return button
@@ -35,6 +36,8 @@ export function createPanel(root, { onOpenSettings }) {
   let send = () => {}
   let pendingTemp = null
   let tempTimer = null
+  // Posição para onde a aleta volta quando o oscilar é desligado.
+  let fixedAirflow = FIXED_AIRFLOWS[1].value
 
   const $ = (selector) => root.querySelector(selector)
   const ready = () => connection === "connected" && online && acState !== null
@@ -67,12 +70,18 @@ export function createPanel(root, { onOpenSettings }) {
     root.querySelectorAll(".menu").forEach((menu) => (menu.hidden = true))
   }
 
-  function choiceTile(field) {
+  function toggleMenu(menu) {
+    const opening = menu.hidden
+    closeMenus()
+    menu.hidden = !opening
+  }
+
+  function choiceControl(container) {
+    const field = container.dataset.field
     const choice = CHOICES[field]
-    const button = controlButton("tile")
+    const button = controlButton("choice-button")
     const items = choice.options.map((option) => {
-      const item = controlButton("menu-item")
-      item.append(option.name)
+      const item = controlButton("menu-item", [option.name])
       item.setAttribute("role", "menuitemradio")
       item.addEventListener("click", () => {
         closeMenus()
@@ -85,74 +94,81 @@ export function createPanel(root, { onOpenSettings }) {
     menu.hidden = true
 
     button.setAttribute("aria-haspopup", "menu")
+    button.setAttribute("aria-label", choice.label)
     button.addEventListener("click", (event) => {
       event.stopPropagation()
-      const opening = menu.hidden
-      closeMenus()
-      menu.hidden = !opening
+      toggleMenu(menu)
     })
+    container.append(button, menu)
 
-    return {
-      node: element("div", "tile-wrap", [button, menu]),
-      render() {
-        const selected = choice.options.find((option) => option.value === acState?.[field])
-        button.replaceChildren(
-          element("span", "tile-icon", [createElement(selected?.icon ?? choice.icon ?? choice.options[0].icon)]),
-          element("span", "tile-corner", [createElement(ChevronDown)]),
-          element("span", "tile-label", [choice.label]),
-          element("span", "tile-value", [selected?.name ?? "—"]),
-        )
-        items.forEach(({ item, option }) => item.setAttribute("aria-checked", option === selected))
-      },
+    return () => {
+      const selected = choice.options.find((option) => option.value === acState?.[field])
+      button.replaceChildren(
+        createElement(selected?.icon ?? choice.icon ?? choice.options[0].icon),
+        element("span", "choice-value", [selected?.name ?? "—"]),
+        element("span", "chevron", [createElement(ChevronDown)]),
+      )
+      items.forEach(({ item, option }) => item.setAttribute("aria-checked", option === selected))
     }
   }
 
-  function sleepTile() {
-    const button = controlButton("tile")
-    button.addEventListener("click", () => change({ sleep: !acState.sleep }))
+  function airflowControl(container) {
+    const buttons = FIXED_AIRFLOWS.map((option) => {
+      const button = controlButton("segment", [option.name])
+      button.addEventListener("click", () => change({ airflow: option.value }))
+      return { button, option }
+    })
+    container.append(...buttons.map(({ button }) => button))
 
-    return {
-      node: button,
-      render() {
-        const on = Boolean(acState?.sleep)
-        button.setAttribute("aria-pressed", on)
-        button.replaceChildren(
-          element("span", "tile-icon", [createElement(SLEEP.icon)]),
-          element("span", "tile-corner dot"),
-          element("span", "tile-label", [SLEEP.label]),
-          element("span", "tile-value", [on ? "Ativo" : "Inativo"]),
-        )
-      },
-    }
+    return () =>
+      buttons.forEach(({ button, option }) => button.setAttribute("aria-pressed", acState?.airflow === option.value))
   }
 
-  const TILE_BUILDERS = { sleep: sleepTile }
-  const tiles = TILE_ORDER.map((field) => (TILE_BUILDERS[field] ?? choiceTile)(field))
-  $(".tiles").append(...tiles.map((tile) => tile.node))
+  const renderers = [
+    ...[...root.querySelectorAll(".choice")].map(choiceControl),
+    airflowControl($("#airflow")),
+  ]
 
   $("#power").addEventListener("click", () => change({ power: !acState.power }))
-  $("#eco").addEventListener("change", (event) => change({ eco: event.target.checked }))
   $("#minus").addEventListener("click", () => stepTemp(shownTemp() - 1))
   $("#plus").addEventListener("click", () => stepTemp(shownTemp() + 1))
   $("#slider").addEventListener("input", (event) => stepTemp(Number(event.target.value)))
-  $("#open-settings").addEventListener("click", onOpenSettings)
+  $("#swing").addEventListener("click", () => {
+    const swinging = acState.airflow === "swing"
+    change({ airflow: swinging ? fixedAirflow : "swing" })
+  })
+  $("#sleep").addEventListener("change", (event) => change({ sleep: event.target.checked }))
+  $("#eco").addEventListener("change", (event) => change({ eco: event.target.checked }))
+  $("#more").addEventListener("click", (event) => {
+    event.stopPropagation()
+    toggleMenu($("#more-menu"))
+  })
+  $("#more-menu").addEventListener("click", (event) => event.stopPropagation())
+  $("#open-settings").addEventListener("click", () => {
+    closeMenus()
+    onOpenSettings()
+  })
   document.addEventListener("click", closeMenus)
 
   function render() {
     const temp = shownTemp() ?? MIN_TEMP
-    const status = STATUS[statusKey()]
+    const airflow = acState?.airflow
+
+    if (airflow && airflow !== "swing") fixedAirflow = airflow
 
     root.dataset.power = acState?.power ? "on" : "off"
-    root.dataset.mode = acState?.mode ?? "cool"
-    root.dataset.ready = ready()
+    root.dataset.status = statusKey()
+    root.dataset.swing = airflow === "swing"
     root.querySelectorAll("[data-control]").forEach((control) => (control.disabled = !ready()))
 
     $("#temp").textContent = acState ? temp : "--"
+    $("#tagline").textContent = TAGLINES[statusKey()]
     $("#slider").value = temp
     $("#slider").style.setProperty("--fill", `${((temp - MIN_TEMP) / (MAX_TEMP - MIN_TEMP)) * 100}%`)
+    $("#swing").setAttribute("aria-pressed", airflow === "swing")
+    $("#sleep").checked = Boolean(acState?.sleep)
     $("#eco").checked = Boolean(acState?.eco)
-    $("#status").replaceChildren(createElement(status.icon), status.text)
-    tiles.forEach((tile) => tile.render())
+    renderers.forEach((render) => render())
   }
 
   render()

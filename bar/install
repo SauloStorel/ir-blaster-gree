@@ -8,3 +8,6 @@ dest="$HOME/.config/omarchy/plugins/storell.ar-gree"
 mkdir -p "$dest"
 cp "$src"/{manifest.json,BarWidget.qml,Model.js,ar-gree} "$dest"/
 omarchy plugin validate "$dest"
+
+# A recarga automática do plugin pode deixar a versão antiga recebendo os cliques.
+omarchy restart shell
