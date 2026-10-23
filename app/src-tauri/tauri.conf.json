@@ -15,7 +15,7 @@
         "label": "panel",
         "title": "Ar-condicionado",
         "width": 440,
-        "height": 390,
+        "height": 440,
         "resizable": false,
         "decorations": false,
         "backgroundColor": "#0c0c0d",
