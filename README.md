@@ -12,19 +12,24 @@ Celular (de qualquer lugar)
 App web/PWA (Vercel Hobby, grátis)      ← login, tela, botões
    │  MQTT
    ▼
-Broker MQTT (HiveMQ Cloud, grátis)  ◄── MQTT ── Módulo na barra do Linux (Waybar)
+Broker MQTT (Adafruit IO, grátis)  ◄── MQTT ── Módulo na barra do Linux (Waybar)
    ▲  MQTT (conexão de saída, sem abrir porta no roteador)
    │
 ESP32 em casa ──IR──► Ar Gree
 ```
 
-### Tópicos MQTT
+### Tópicos MQTT (feeds do Adafruit IO)
+
+Broker `io.adafruit.com:8883` (TLS), usuário `saulostorel`, senha = Active Key do Adafruit IO.
 
 | Tópico | Direção | Conteúdo |
 |---|---|---|
-| `ir-blaster/ar-quarto/set` | app → ESP32 | comando parcial, ex.: `{"power": true, "temp": 22}` |
-| `ir-blaster/ar-quarto/state` | ESP32 → app (retido) | `{"power", "mode", "temp", "fan", "swing"}` |
-| `ir-blaster/ar-quarto/online` | ESP32 → app (retido) | `online` / `offline` (last will) |
+| `saulostorel/feeds/ar-quarto-set` | app → ESP32 | comando parcial, ex.: `{"power": true, "temp": 22}` |
+| `saulostorel/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "swing"}` |
+| `saulostorel/feeds/ar-quarto-online` | ESP32 → app | `online` / `offline` (last will) |
+
+O Adafruit IO não usa retain: para receber o último valor de um feed, publique qualquer coisa em
+`<feed>/get`. O plano grátis aceita até 30 mensagens por minuto e 10 feeds.
 
 Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `medium`, `high`;
 `temp` = 16 a 30.
@@ -35,6 +40,7 @@ Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `
 - O IR é de mão única (o ar não confirma o recebimento). O sensor de temperatura mostra no
   app a temperatura real do cômodo.
 - Os agendamentos rodam no próprio ESP32, com o relógio sincronizado via NTP.
+- O ESP32 guarda o último estado na flash, para não perder o estado numa queda de energia.
 - Custo mensal: R$ 0.
 
 ## Peças
@@ -68,7 +74,7 @@ Em `firmware/`, compilado com `arduino-cli` (versões fixadas em `sketch.yaml`):
 
 ```sh
 cd firmware
-cp secrets.example.h secrets.h   # preencher Wi-Fi e HiveMQ
+cp secrets.example.h secrets.h   # preencher Wi-Fi e a chave do Adafruit IO
 arduino-cli compile --profile esp32 .
 ```
 
@@ -77,15 +83,17 @@ arduino-cli compile --profile esp32 .
 | `firmware.ino` | liga as peças: comando recebido → IR → publica o estado |
 | `ac_state` | estado do ar e conversão de/para JSON |
 | `gree_remote` | monta e envia o sinal IR do Gree |
+| `state_store` | guarda o último estado na flash |
 | `connection` | Wi-Fi, MQTT com TLS, reconexão e last will |
-| `config.h` | pinos, modelo Gree e tópicos |
-| `ca_cert.h` | certificado raiz do TLS (ISRG Root X1) |
+| `config.h` | pinos, modelo Gree, broker e tópicos |
+| `ca_cert.h` | certificado raiz do TLS (DigiCert Global Root G2) |
 
 ## Onde paramos
 
 - [x] Firmware escrito (IR + Wi-Fi + MQTT).
 - [x] Firmware compilando (69% da flash, 13% da RAM).
-- [ ] Criar o cluster grátis no HiveMQ Cloud e conferir se o certificado é mesmo o ISRG Root X1.
+- [x] Broker: o HiveMQ acabou com o plano grátis; adotado o Adafruit IO. Login, TLS e publicação
+      testados do computador.
 - [ ] Módulo na barra do Waybar: ícone e temperatura; clique liga/desliga; rolagem muda a
       temperatura; clique direito abre o menu de modo/ventilação. Usa `mosquitto_pub`/`mosquitto_sub`.
 - [ ] App web/PWA com login.

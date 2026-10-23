@@ -43,21 +43,22 @@ void Connection::publishState(const AcState& state) {
 
   char payload[256];
   const size_t length = serializeJson(doc, payload);
-  mqtt_.publish(kTopicState, reinterpret_cast<const uint8_t*>(payload), length, true);
+  mqtt_.publish(kTopicState, reinterpret_cast<const uint8_t*>(payload), length);
 }
 
 void Connection::connect() {
   Serial.printf("Conectando ao MQTT em %s...\n", kMqttHost);
 
   // Se o ESP32 cair, o broker publica "offline" no lugar dele (last will).
-  const bool connected = mqtt_.connect(kDeviceId, kMqttUser, kMqttPassword, kTopicOnline, 1, true, "offline");
+  // O Adafruit IO não usa retain: quem quiser o último valor publica em <feed>/get.
+  const bool connected = mqtt_.connect(kDeviceId, kMqttUser, kAioKey, kTopicOnline, 1, false, "offline");
   if (!connected) {
     Serial.printf("Falha no MQTT (código %d), tentando de novo em %lus\n", mqtt_.state(), kRetryIntervalMs / 1000);
     return;
   }
 
   Serial.println("MQTT conectado");
-  mqtt_.publish(kTopicOnline, "online", true);
+  mqtt_.publish(kTopicOnline, "online");
   mqtt_.subscribe(kTopicSet, 1);
   onConnected_();
 }
