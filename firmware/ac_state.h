@@ -11,6 +11,7 @@ struct AcState {
   uint8_t airflow = kGreeSwingAuto;  // posição da aleta vertical; kGreeSwingAuto = oscilar
   bool sleep = false;
   bool eco = false;
+  bool turbo = false;
 };
 
 // Aplica um comando parcial, ex.: {"power": true, "temp": 22}.

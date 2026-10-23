@@ -12,5 +12,6 @@ void GreeRemote::send(const AcState& state) {
   ac_.setSwingVertical(state.airflow == kGreeSwingAuto, state.airflow);
   ac_.setSleep(state.sleep);
   ac_.setEcono(state.eco);
+  ac_.setTurbo(state.turbo);
   ac_.send();
 }

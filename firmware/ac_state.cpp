@@ -47,6 +47,7 @@ void applyCommand(AcState& state, const JsonDocument& command) {
   state.airflow = codeOf(kAirflows, command["airflow"] | "", state.airflow);
   state.sleep = command["sleep"] | state.sleep;
   state.eco = command["eco"] | state.eco;
+  state.turbo = command["turbo"] | state.turbo;
 }
 
 void writeJson(const AcState& state, JsonDocument& doc) {
@@ -57,4 +58,5 @@ void writeJson(const AcState& state, JsonDocument& doc) {
   doc["airflow"] = nameOf(kAirflows, state.airflow);
   doc["sleep"] = state.sleep;
   doc["eco"] = state.eco;
+  doc["turbo"] = state.turbo;
 }

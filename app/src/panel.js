@@ -6,13 +6,16 @@ import { clampTemp } from "./state.js"
 // Espera a pessoa parar de ajustar antes de enviar: o plano grátis aceita 30 mensagens por minuto.
 const TEMP_SEND_DELAY_MS = 600
 
+// Opções liga/desliga do menu "•••"; cada uma tem um <input id> com o mesmo nome do campo.
+const SWITCHES = ["turbo", "sleep", "eco"]
+
 // Texto embaixo da temperatura: o slogan quando está tudo certo, o problema quando não está.
 const TAGLINES = {
-  connecting: "conectando…",
-  disconnected: "sem conexão com a internet",
-  unauthorized: "usuário ou chave do Adafruit inválidos",
+  connecting: "Conectando…",
+  disconnected: "Sem conexão com a internet",
+  unauthorized: "Usuário ou chave do Adafruit inválidos",
   offline: "ESP32 offline",
-  ready: "do jeito certo.",
+  ready: "Do jeito certo.",
 }
 
 function element(tag, className, children = []) {
@@ -137,8 +140,7 @@ export function createPanel(root, { onOpenSettings }) {
     const swinging = acState.airflow === "swing"
     change({ airflow: swinging ? fixedAirflow : "swing" })
   })
-  $("#sleep").addEventListener("change", (event) => change({ sleep: event.target.checked }))
-  $("#eco").addEventListener("change", (event) => change({ eco: event.target.checked }))
+  SWITCHES.forEach((field) => $(`#${field}`).addEventListener("change", (event) => change({ [field]: event.target.checked })))
   $("#more").addEventListener("click", (event) => {
     event.stopPropagation()
     toggleMenu($("#more-menu"))
@@ -158,7 +160,7 @@ export function createPanel(root, { onOpenSettings }) {
 
     root.dataset.power = acState?.power ? "on" : "off"
     root.dataset.status = statusKey()
-    root.dataset.swing = airflow === "swing"
+    root.dataset.airflow = airflow ?? "middle"
     root.querySelectorAll("[data-control]").forEach((control) => (control.disabled = !ready()))
 
     $("#temp").textContent = acState ? temp : "--"
@@ -166,8 +168,7 @@ export function createPanel(root, { onOpenSettings }) {
     $("#slider").value = temp
     $("#slider").style.setProperty("--fill", `${((temp - MIN_TEMP) / (MAX_TEMP - MIN_TEMP)) * 100}%`)
     $("#swing").setAttribute("aria-pressed", airflow === "swing")
-    $("#sleep").checked = Boolean(acState?.sleep)
-    $("#eco").checked = Boolean(acState?.eco)
+    SWITCHES.forEach((field) => ($(`#${field}`).checked = Boolean(acState?.[field])))
     renderers.forEach((render) => render())
   }
 

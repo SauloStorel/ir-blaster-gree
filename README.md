@@ -25,14 +25,14 @@ Broker `io.adafruit.com:8883` (TLS), usuário `saulostorel`, senha = Active Key 
 | Tópico | Direção | Conteúdo |
 |---|---|---|
 | `saulostorel/feeds/ar-quarto-set` | app → ESP32 | comando parcial, ex.: `{"power": true, "temp": 22}` |
-| `saulostorel/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "airflow", "sleep", "eco"}` |
+| `saulostorel/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "airflow", "sleep", "eco", "turbo"}` |
 | `saulostorel/feeds/ar-quarto-online` | ESP32 → app | `online` / `offline` (last will) |
 
 O Adafruit IO não usa retain: para receber o último valor de um feed, publique qualquer coisa em
 `<feed>/get`. O plano grátis aceita até 30 mensagens por minuto e 10 feeds.
 
 Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `medium`, `high`;
-`airflow` = `swing`, `up`, `middle`, `down`; `sleep` e `eco` = `true`/`false`;
+`airflow` = `swing`, `up`, `middle`, `down`; `sleep`, `eco` e `turbo` = `true`/`false`;
 `temp` = 16 a 30.
 
 - O protocolo do Gree é decodificado pela biblioteca
@@ -116,7 +116,7 @@ bar/ar-gree watch                         # mostra o estado em tempo real
 ## Painel (Windows e Linux)
 
 Em `app/`: um app [Tauri](https://tauri.app) com o painel "meu canto": liga/desliga, temperatura,
-modo, ventilação e oscilar; no menu "•••", sono, eco, posição da aleta e a conta do Adafruit. O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
+modo, ventilação e oscilar; no menu "•••", turbo, sono, eco, posição da aleta e a conta do Adafruit. O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
 para o Adafruit IO por WebSocket.
 
 - **Linux:** clique no ícone da barra do Omarchy abre e fecha o painel no canto superior direito

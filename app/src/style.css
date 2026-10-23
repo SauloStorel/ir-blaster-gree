@@ -1,4 +1,4 @@
-/* "meu canto": cartão grafite, um único vermelho de destaque, número gigante à esquerda e o ar à direita. */
+/* Painel do ar: cartão grafite, um único vermelho de destaque, número gigante à esquerda e o ar à direita. */
 :root {
   --card: #151517;
   --surface: #1e1e21;
@@ -74,16 +74,12 @@ svg {
 
 .top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 16px;
-  font-weight: 550;
+.heading {
+  font-size: 18px;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -131,7 +127,7 @@ svg {
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 12px;
-  margin-block: 14px 18px;
+  margin-block: 6px 18px;
 }
 
 .temp {
@@ -144,13 +140,16 @@ svg {
 }
 
 .tagline {
+  display: flex;
+  align-items: center;
+  gap: 9px;
   margin-top: 6px;
   font-size: 17px;
   font-weight: 450;
   color: var(--muted);
 }
 
-.card:not([data-status="ready"]) .tagline {
+.card:not([data-status="ready"]) #tagline {
   color: var(--accent);
 }
 
@@ -177,7 +176,6 @@ svg {
   height: auto;
   margin-top: -2px;
   opacity: 0;
-  transition: opacity 0.6s;
 }
 
 .flow path {
@@ -200,6 +198,67 @@ svg {
 
 .card[data-power="on"] .flow {
   opacity: 1;
+}
+
+/* Aleta: fechada cobre a saída; aberta aparece abaixo dela, mais fina quanto mais horizontal. */
+
+.louver {
+  transform-box: fill-box;
+  transform-origin: top;
+  transition: transform 0.7s ease-in-out;
+}
+
+.card[data-power="on"] .louver {
+  transform: translateY(15px) scaleY(0.5);
+}
+
+.card[data-power="on"][data-airflow="up"] .louver {
+  transform: translateY(15px) scaleY(0.25);
+}
+
+.card[data-power="on"][data-airflow="down"] .louver {
+  transform: translateY(15px) scaleY(0.75);
+}
+
+.card[data-power="on"][data-airflow="swing"] .louver {
+  animation: louver-swing 3s ease-in-out infinite alternate;
+}
+
+@keyframes louver-swing {
+  from {
+    transform: translateY(15px) scaleY(0.25);
+  }
+  to {
+    transform: translateY(15px) scaleY(0.75);
+  }
+}
+
+/* O ar segue a aleta: para cima abre e encurta; para baixo estica e fecha. */
+
+.flow {
+  transform-origin: top center;
+  transition: opacity 0.6s, transform 0.7s ease-in-out;
+}
+
+.card[data-airflow="up"] .flow {
+  transform: scale(1.2, 0.7);
+}
+
+.card[data-airflow="down"] .flow {
+  transform: scale(0.8, 1.15);
+}
+
+.card[data-airflow="swing"] .flow {
+  animation: flow-swing 3s ease-in-out infinite alternate;
+}
+
+@keyframes flow-swing {
+  from {
+    transform: scale(1.2, 0.7);
+  }
+  to {
+    transform: scale(0.8, 1.15);
+  }
 }
 
 @keyframes blow {
@@ -531,7 +590,9 @@ svg {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .flow path {
+  .flow,
+  .flow path,
+  .card[data-power="on"][data-airflow="swing"] .louver {
     animation: none;
     stroke-dasharray: none;
   }

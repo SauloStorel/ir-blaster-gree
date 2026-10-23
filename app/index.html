@@ -3,19 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>meu canto</title>
+    <title>Ar-condicionado</title>
   </head>
   <body>
     <main id="panel" class="card" hidden>
       <header class="top">
-        <h1 class="brand">meu canto <span class="dot" aria-hidden="true"></span></h1>
         <button id="power" class="power" type="button" aria-label="Ligar ou desligar" data-control data-icon="power"></button>
       </header>
 
       <section class="hero">
         <div class="reading">
           <p class="temp"><span id="temp">--</span>°</p>
-          <p id="tagline" class="tagline"></p>
+          <p class="tagline"><span class="dot" aria-hidden="true"></span><span id="tagline"></span></p>
         </div>
 
         <div class="unit" aria-hidden="true">
@@ -35,6 +34,7 @@
             <rect x="22" y="58" width="196" height="24" rx="4" fill="#dcdcda" />
             <rect x="28" y="66" width="184" height="14" rx="2" fill="url(#ac-vent)" />
             <rect x="119" y="66" width="2" height="14" fill="#5a5b5d" />
+            <rect class="louver" x="28" y="66" width="184" height="14" rx="2" fill="url(#ac-body)" />
             <rect x="196" y="50" width="18" height="2" rx="1" fill="#b9bab8" />
           </svg>
           <svg class="flow" viewBox="0 0 240 70">
@@ -64,6 +64,7 @@
         <div class="more">
           <button id="more" class="icon-button" type="button" aria-label="Mais opções" aria-haspopup="menu" data-icon="more"></button>
           <div id="more-menu" class="menu more-menu" hidden>
+            <label class="menu-row">Turbo <input id="turbo" type="checkbox" role="switch" data-control /></label>
             <label class="menu-row">Sono <input id="sleep" type="checkbox" role="switch" data-control /></label>
             <label class="menu-row">Eco <input id="eco" type="checkbox" role="switch" data-control /></label>
             <div class="menu-row">
@@ -79,7 +80,7 @@
 
     <main id="settings" class="card" hidden>
       <form class="settings" autocomplete="off">
-        <h1 class="brand">meu canto <span class="dot" aria-hidden="true"></span></h1>
+        <h1 class="heading">Conta do Adafruit</h1>
         <p>Em io.adafruit.com, clique no ícone da chave amarela e copie o usuário e a Active Key.</p>
         <label>Usuário <input id="username" name="username" required spellcheck="false" /></label>
         <label>Active Key <input id="key" name="key" type="password" required spellcheck="false" /></label>

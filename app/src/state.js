@@ -13,10 +13,11 @@ export function parseState(text) {
       Number.isInteger(data.temp) &&
       typeof data.sleep === "boolean" &&
       typeof data.eco === "boolean" &&
+      typeof data.turbo === "boolean" &&
       Object.keys(CHOICES).every((field) => isOption(field, data[field]))
 
-    const { power, mode, fan, airflow, sleep, eco } = data
-    return valid ? { power, mode, fan, airflow, sleep, eco, temp: clampTemp(data.temp) } : null
+    const { power, mode, fan, airflow, sleep, eco, turbo } = data
+    return valid ? { power, mode, fan, airflow, sleep, eco, turbo, temp: clampTemp(data.temp) } : null
   } catch {
     return null
   }

@@ -9,30 +9,30 @@ export const CHOICES = {
   mode: {
     label: "Modo",
     options: [
-      { value: "cool", name: "frio", icon: Snowflake },
-      { value: "dry", name: "seco", icon: Droplet },
-      { value: "fan", name: "ventilar", icon: Fan },
-      { value: "heat", name: "quente", icon: Flame },
-      { value: "auto", name: "automático", icon: AirVent },
+      { value: "cool", name: "Frio", icon: Snowflake },
+      { value: "dry", name: "Seco", icon: Droplet },
+      { value: "fan", name: "Ventilar", icon: Fan },
+      { value: "heat", name: "Quente", icon: Flame },
+      { value: "auto", name: "Automático", icon: AirVent },
     ],
   },
   fan: {
     label: "Ventilação",
     icon: Fan,
     options: [
-      { value: "auto", name: "auto" },
-      { value: "low", name: "baixa" },
-      { value: "medium", name: "média" },
-      { value: "high", name: "alta" },
+      { value: "auto", name: "Auto" },
+      { value: "low", name: "Baixa" },
+      { value: "medium", name: "Média" },
+      { value: "high", name: "Alta" },
     ],
   },
   airflow: {
     label: "Aleta",
     options: [
-      { value: "swing", name: "oscilar" },
-      { value: "up", name: "cima" },
-      { value: "middle", name: "meio" },
-      { value: "down", name: "baixo" },
+      { value: "swing", name: "Oscilar" },
+      { value: "up", name: "Cima" },
+      { value: "middle", name: "Meio" },
+      { value: "down", name: "Baixo" },
     ],
   },
 }
