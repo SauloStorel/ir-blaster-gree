@@ -18,14 +18,10 @@ var AC_ICON = MODE_ICONS.auto
 var MODE_NAMES = { cool: "Frio", dry: "Seco", fan: "Ventilar", heat: "Quente", auto: "Automático" }
 var FAN_NAMES = { auto: "automática", low: "baixa", medium: "média", high: "alta" }
 
-var HINT = "Clique: liga/desliga · Rolar: temperatura · Botão direito: modo"
+var HINT = "Clique: painel · Botão direito: liga/desliga · Rolar: temperatura"
 
 function clampTemp(temp) {
   return Math.max(MIN_TEMP, Math.min(MAX_TEMP, temp))
-}
-
-function nextMode(mode) {
-  return MODES[(MODES.indexOf(mode) + 1) % MODES.length]
 }
 
 // O estado vem da rede: só aceita os campos e valores conhecidos.

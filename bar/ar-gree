@@ -31,7 +31,7 @@ watch() {
 send() { publish set "$1"; }
 
 simulate() {
-  local state='{"power":false,"mode":"cool","temp":24,"fan":"auto","swing":false}'
+  local state='{"power":false,"mode":"cool","temp":24,"fan":"auto","airflow":"swing","sleep":false,"eco":false}'
 
   trap 'publish online offline' EXIT
   publish online online

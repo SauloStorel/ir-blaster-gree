@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ar Gree</title>
+  </head>
+  <body>
+    <main id="panel" class="card" hidden>
+      <header class="top">
+        <span class="room">Ar do quarto</span>
+        <button id="power" class="power" type="button" aria-label="Ligar ou desligar" data-control data-icon="power"></button>
+      </header>
+
+      <section class="unit" aria-hidden="true">
+        <svg class="ac" viewBox="0 0 220 64">
+          <defs>
+            <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#fdfdfc" />
+              <stop offset="1" stop-color="#d6d7d5" />
+            </linearGradient>
+          </defs>
+          <rect x="4" y="4" width="212" height="50" rx="11" fill="url(#ac-body)" />
+          <rect x="16" y="41" width="188" height="7" rx="3.5" fill="#a4a8ab" />
+          <rect x="16" y="41" width="188" height="2" rx="1" fill="#7d8285" />
+          <circle class="led" cx="198" cy="17" r="2.2" />
+        </svg>
+        <div class="flow">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </section>
+
+      <section class="reading">
+        <p class="temp"><span id="temp">--</span><span class="degree">°C</span></p>
+        <label class="eco">
+          <span data-icon="leaf"></span>
+          <span>Eco</span>
+          <input id="eco" type="checkbox" role="switch" data-control />
+        </label>
+      </section>
+
+      <section class="adjust">
+        <button id="minus" class="round" type="button" aria-label="Diminuir temperatura" data-control data-icon="minus"></button>
+        <input id="slider" type="range" min="16" max="30" step="1" aria-label="Temperatura" data-control />
+        <button id="plus" class="round" type="button" aria-label="Aumentar temperatura" data-control data-icon="plus"></button>
+      </section>
+      <div class="scale"><span>16°</span><span>30°</span></div>
+
+      <section class="tiles"></section>
+
+      <footer class="bottom">
+        <span id="status" class="status"></span>
+        <button id="open-settings" class="ghost" type="button" aria-label="Configurações" data-icon="sliders"></button>
+      </footer>
+    </main>
+
+    <main id="settings" class="card" hidden>
+      <form class="settings" autocomplete="off">
+        <h1>Conectar ao Adafruit IO</h1>
+        <p>Em io.adafruit.com, clique no ícone da chave amarela e copie o usuário e a Active Key.</p>
+        <label>Usuário <input id="username" name="username" required spellcheck="false" /></label>
+        <label>Active Key <input id="key" name="key" type="password" required spellcheck="false" /></label>
+        <div class="actions">
+          <button id="cancel" class="secondary" type="button">Cancelar</button>
+          <button class="primary" type="submit">Salvar</button>
+        </div>
+      </form>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

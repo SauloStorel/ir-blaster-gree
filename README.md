@@ -25,13 +25,14 @@ Broker `io.adafruit.com:8883` (TLS), usuário `saulostorel`, senha = Active Key 
 | Tópico | Direção | Conteúdo |
 |---|---|---|
 | `saulostorel/feeds/ar-quarto-set` | app → ESP32 | comando parcial, ex.: `{"power": true, "temp": 22}` |
-| `saulostorel/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "swing"}` |
+| `saulostorel/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "airflow", "sleep", "eco"}` |
 | `saulostorel/feeds/ar-quarto-online` | ESP32 → app | `online` / `offline` (last will) |
 
 O Adafruit IO não usa retain: para receber o último valor de um feed, publique qualquer coisa em
 `<feed>/get`. O plano grátis aceita até 30 mensagens por minuto e 10 feeds.
 
 Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `medium`, `high`;
+`airflow` = `swing`, `up`, `middle`, `down`; `sleep` e `eco` = `true`/`false`;
 `temp` = 16 a 30.
 
 - O protocolo do Gree é decodificado pela biblioteca
@@ -99,9 +100,9 @@ o Adafruit IO. As credenciais ficam em `~/.config/ir-blaster-gree/credentials` (
 | ícone do modo + temperatura | ar ligado |
 | ícone do ar | ar desligado |
 | ícone apagado | ESP32 offline |
-| clique | liga/desliga |
+| clique | abre/fecha o painel |
+| botão direito | liga/desliga |
 | rolar | sobe/desce a temperatura (enviada 0,7 s depois da última rolagem) |
-| botão direito | próximo modo: frio → seco → ventilar → quente → automático |
 
 ```sh
 bar/install                               # instala ou atualiza o plugin (o Omarchy não aceita symlink)
@@ -112,6 +113,26 @@ bar/ar-gree send '{"power": true}'        # manda um comando pelo terminal
 bar/ar-gree watch                         # mostra o estado em tempo real
 ```
 
+## Painel (Windows e Linux)
+
+Em `app/`: um app [Tauri](https://tauri.app) com o painel do ar (liga/desliga, temperatura, modo,
+ventilação, sono, eco e aleta). O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
+para o Adafruit IO por WebSocket.
+
+- **Linux:** clique no ícone da barra do Omarchy abre e fecha o painel no canto superior direito
+  (regra de janela `ar-gree(-panel)?` em `~/.config/hypr/hyprland.lua`).
+- **Windows:** ícone na bandeja; clique abre o painel colado nele, e o menu tem "Sair".
+- As credenciais ficam no mesmo arquivo do script `ar-gree` (no Windows, em
+  `%APPDATA%\ir-blaster-gree\credentials`). Sem esse arquivo, o painel abre na tela de configuração.
+
+```sh
+app/install                 # Linux: compila e instala em ~/.local/bin/ar-gree-panel
+cd app && npm install && npx tauri build   # Windows: gera o instalador em src-tauri/target/release/bundle/
+```
+
+No Linux com NVIDIA, a janela é opaca de propósito: com transparência o WebKitGTK não desenha o conteúdo.
+Os cantos arredondados vêm da regra do Hyprland.
+
 ## Onde paramos
 
 - [x] Firmware escrito (IR + Wi-Fi + MQTT).
@@ -119,6 +140,8 @@ bar/ar-gree watch                         # mostra o estado em tempo real
 - [x] Broker: o HiveMQ acabou com o plano grátis; adotado o Adafruit IO. Login, TLS e publicação
       testados do computador.
 - [x] Plugin na barra do Omarchy, testado com o simulador.
-- [ ] App web/PWA com login.
+- [x] Painel desktop (Tauri) para Windows e Linux, aberto pela barra no Linux.
+- [ ] Gerar o instalador do Windows (compilar num PC com Windows ou via GitHub Actions).
+- [ ] App web/PWA para o celular, reaproveitando o painel.
 - [ ] Fechar o pedido das peças e confirmar o transistor que tem em casa.
 - [ ] Quando o ESP32 chegar: ler o controle com o receptor para confirmar o modelo Gree (`kGreeModel`).

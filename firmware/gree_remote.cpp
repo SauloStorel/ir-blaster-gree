@@ -9,6 +9,8 @@ void GreeRemote::send(const AcState& state) {
   ac_.setMode(state.mode);
   ac_.setTemp(state.temp);
   ac_.setFan(state.fan);
-  ac_.setSwingVertical(state.swing, kGreeSwingLastPos);
+  ac_.setSwingVertical(state.airflow == kGreeSwingAuto, state.airflow);
+  ac_.setSleep(state.sleep);
+  ac_.setEcono(state.eco);
   ac_.send();
 }

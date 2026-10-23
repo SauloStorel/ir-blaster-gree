@@ -17,6 +17,10 @@ constexpr Option kFans[] = {
     {"auto", kGreeFanAuto}, {"low", kGreeFanMin}, {"medium", kGreeFanMed}, {"high", kGreeFanMax},
 };
 
+constexpr Option kAirflows[] = {
+    {"swing", kGreeSwingAuto}, {"up", kGreeSwingUp}, {"middle", kGreeSwingMiddle}, {"down", kGreeSwingDown},
+};
+
 template <size_t N>
 uint8_t codeOf(const Option (&options)[N], const char* name, uint8_t fallback) {
   for (const Option& option : options) {
@@ -40,7 +44,9 @@ void applyCommand(AcState& state, const JsonDocument& command) {
   state.mode = codeOf(kModes, command["mode"] | "", state.mode);
   state.temp = constrain(command["temp"] | state.temp, kGreeMinTempC, kGreeMaxTempC);
   state.fan = codeOf(kFans, command["fan"] | "", state.fan);
-  state.swing = command["swing"] | state.swing;
+  state.airflow = codeOf(kAirflows, command["airflow"] | "", state.airflow);
+  state.sleep = command["sleep"] | state.sleep;
+  state.eco = command["eco"] | state.eco;
 }
 
 void writeJson(const AcState& state, JsonDocument& doc) {
@@ -48,5 +54,7 @@ void writeJson(const AcState& state, JsonDocument& doc) {
   doc["mode"] = nameOf(kModes, state.mode);
   doc["temp"] = state.temp;
   doc["fan"] = nameOf(kFans, state.fan);
-  doc["swing"] = state.swing;
+  doc["airflow"] = nameOf(kAirflows, state.airflow);
+  doc["sleep"] = state.sleep;
+  doc["eco"] = state.eco;
 }

@@ -1,0 +1,22 @@
+[package]
+name = "ar-gree"
+version = "0.1.0"
+description = "Painel do ar-condicionado Gree"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-single-instance = "2"
+serde = { version = "1", features = ["derive"] }
+
+# No Linux o ícone fica na barra do Omarchy; nos outros sistemas, na bandeja.
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-positioner = { version = "2", features = ["tray-icon"] }
+
+[profile.release]
+strip = true
+lto = true

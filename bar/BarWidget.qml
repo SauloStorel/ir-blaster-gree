@@ -10,6 +10,8 @@ BarWidget {
   moduleName: "storell.ar-gree"
 
   readonly property string cli: Qt.resolvedUrl("ar-gree").toString().replace(/^file:\/\//, "")
+  // App do painel (~/ir-blaster-gree/app); abrir de novo mostra ou esconde a janela.
+  readonly property string panelApp: Quickshell.env("HOME") + "/.local/bin/ar-gree-panel"
 
   property var acState: null
   property bool online: false
@@ -37,8 +39,8 @@ BarWidget {
     if (root.controllable) root.send({ power: !root.acState.power })
   }
 
-  function cycleMode() {
-    if (root.controllable) root.send({ power: true, mode: Model.nextMode(root.acState.mode) })
+  function togglePanel() {
+    Quickshell.execDetached([root.panelApp])
   }
 
   function stepTemp(delta) {
@@ -86,8 +88,8 @@ BarWidget {
     tooltipText: Model.tooltip(root.acState, root.online)
 
     onPressed: function(b) {
-      if (b === Qt.RightButton) root.cycleMode()
-      else root.togglePower()
+      if (b === Qt.RightButton) root.togglePower()
+      else root.togglePanel()
     }
     onWheelMoved: function(delta) { root.stepTemp(delta) }
   }
