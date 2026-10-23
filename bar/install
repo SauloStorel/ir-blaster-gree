@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Instala (ou atualiza) o plugin na barra do Omarchy, que não aceita links simbólicos.
+set -euo pipefail
+
+src=$(dirname "$(realpath "$0")")
+dest="$HOME/.config/omarchy/plugins/storell.ar-gree"
+
+mkdir -p "$dest"
+cp "$src"/{manifest.json,BarWidget.qml,Model.js,ar-gree} "$dest"/
+omarchy plugin validate "$dest"

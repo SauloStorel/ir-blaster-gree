@@ -12,7 +12,7 @@ Celular (de qualquer lugar)
 App web/PWA (Vercel Hobby, grátis)      ← login, tela, botões
    │  MQTT
    ▼
-Broker MQTT (Adafruit IO, grátis)  ◄── MQTT ── Módulo na barra do Linux (Waybar)
+Broker MQTT (Adafruit IO, grátis)  ◄── MQTT ── Plugin na barra do Omarchy
    ▲  MQTT (conexão de saída, sem abrir porta no roteador)
    │
 ESP32 em casa ──IR──► Ar Gree
@@ -88,14 +88,37 @@ arduino-cli compile --profile esp32 .
 | `config.h` | pinos, modelo Gree, broker e tópicos |
 | `ca_cert.h` | certificado raiz do TLS (DigiCert Global Root G2) |
 
+## Barra do Omarchy
+
+Em `bar/`: um plugin da barra (`storell.ar-gree`) e o script `ar-gree`, que ele usa para falar com
+o Adafruit IO. As credenciais ficam em `~/.config/ir-blaster-gree/credentials` (`AIO_USERNAME` e
+`AIO_KEY`, modo 600).
+
+| Na barra | Ação |
+|---|---|
+| ícone do modo + temperatura | ar ligado |
+| ícone do ar | ar desligado |
+| ícone apagado | ESP32 offline |
+| clique | liga/desliga |
+| rolar | sobe/desce a temperatura (enviada 0,7 s depois da última rolagem) |
+| botão direito | próximo modo: frio → seco → ventilar → quente → automático |
+
+```sh
+bar/install                               # instala ou atualiza o plugin (o Omarchy não aceita symlink)
+omarchy plugin enable storell.ar-gree --section right
+
+bar/ar-gree simulate                      # finge ser o ESP32, para testar sem a placa
+bar/ar-gree send '{"power": true}'        # manda um comando pelo terminal
+bar/ar-gree watch                         # mostra o estado em tempo real
+```
+
 ## Onde paramos
 
 - [x] Firmware escrito (IR + Wi-Fi + MQTT).
 - [x] Firmware compilando (69% da flash, 13% da RAM).
 - [x] Broker: o HiveMQ acabou com o plano grátis; adotado o Adafruit IO. Login, TLS e publicação
       testados do computador.
-- [ ] Módulo na barra do Waybar: ícone e temperatura; clique liga/desliga; rolagem muda a
-      temperatura; clique direito abre o menu de modo/ventilação. Usa `mosquitto_pub`/`mosquitto_sub`.
+- [x] Plugin na barra do Omarchy, testado com o simulador.
 - [ ] App web/PWA com login.
 - [ ] Fechar o pedido das peças e confirmar o transistor que tem em casa.
 - [ ] Quando o ESP32 chegar: ler o controle com o receptor para confirmar o modelo Gree (`kGreeModel`).

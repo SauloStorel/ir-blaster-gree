@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "storell.ar-gree",
+  "name": "Ar Gree",
+  "version": "1.0.0",
+  "author": "storell",
+  "description": "Liga, desliga e ajusta o ar-condicionado Gree pelo IR blaster Wi-Fi",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Ar Gree",
+    "description": "Liga, desliga e ajusta o ar-condicionado Gree",
+    "category": "Info",
+    "allowMultiple": false
+  }
+}
