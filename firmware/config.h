@@ -5,7 +5,7 @@
 // Pino que aciona o transistor do LED IR.
 constexpr uint16_t kIrLedPin = 4;
 
-// Variante do protocolo Gree. Confirmar lendo o controle original com o receptor.
+// Variante do protocolo Gree, confirmada lendo o controle original com receptor_ir/.
 constexpr gree_ac_remote_model_t kGreeModel = gree_ac_remote_model_t::YAW1F;
 
 // Adafruit IO: cada tópico é um feed no formato <usuário>/feeds/<chave-do-feed>.

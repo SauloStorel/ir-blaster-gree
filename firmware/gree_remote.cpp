@@ -2,7 +2,11 @@
 
 GreeRemote::GreeRemote(uint16_t pin, gree_ac_remote_model_t model) : ac_(pin, model) {}
 
-void GreeRemote::begin() { ac_.begin(); }
+void GreeRemote::begin() {
+  ac_.begin();
+  // O controle original manda o display sempre com Light desligado; a biblioteca começa ligado.
+  ac_.setLight(false);
+}
 
 void GreeRemote::send(const AcState& state) {
   ac_.setPower(state.power);

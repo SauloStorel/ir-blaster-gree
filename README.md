@@ -88,6 +88,15 @@ arduino-cli compile --profile esp32 .
 | `connection` | Wi-Fi, MQTT com TLS, reconexão e last will |
 | `config.h` | pinos, modelo Gree, broker e tópicos |
 | `ca_cert.h` | certificado raiz do TLS (DigiCert Global Root G2) |
+| `receptor_ir/` | sketch à parte que lê o controle original e mostra o modelo Gree |
+
+Para confirmar o `kGreeModel`, grave o leitor e aperte botões do controle apontado para o receptor:
+
+```sh
+cd firmware/receptor_ir
+arduino-cli compile --upload --profile esp32 -p /dev/ttyUSB0 .
+arduino-cli monitor -p /dev/ttyUSB0 -c baudrate=115200
+```
 
 ## Barra do Omarchy
 

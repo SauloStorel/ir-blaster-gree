@@ -14,6 +14,12 @@ void Connection::begin(CommandHandler onCommand, ConnectedHandler onConnected) {
   onCommand_ = onCommand;
   onConnected_ = onConnected;
 
+  WiFi.onEvent([](WiFiEvent_t, WiFiEventInfo_t) { Serial.printf("Wi-Fi conectado, IP %s\n", WiFi.localIP().toString().c_str()); },
+               ARDUINO_EVENT_WIFI_STA_GOT_IP);
+  // Motivos comuns: 201 = rede não encontrada, 15 ou 202 = senha errada.
+  WiFi.onEvent([](WiFiEvent_t, WiFiEventInfo_t info) { Serial.printf("Wi-Fi caiu (motivo %d)\n", info.wifi_sta_disconnected.reason); },
+               ARDUINO_EVENT_WIFI_STA_DISCONNECTED);
+
   WiFi.mode(WIFI_STA);
   WiFi.setAutoReconnect(true);
   WiFi.begin(kWifiSsid, kWifiPassword);
