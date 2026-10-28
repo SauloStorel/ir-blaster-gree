@@ -287,6 +287,12 @@ body::before {
   content: "Desligar";
 }
 
+/* Na demonstração não há conta para configurar. */
+[data-demo] #open-settings,
+[data-demo] .more-menu hr {
+  display: none;
+}
+
 /* Conta do Adafruit */
 
 .settings input,

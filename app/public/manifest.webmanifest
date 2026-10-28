@@ -3,7 +3,7 @@
   "short_name": "Xfria",
   "description": "Seu clima. Seu controle.",
   "lang": "pt-BR",
-  "start_url": "/",
+  "start_url": "/painel",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",

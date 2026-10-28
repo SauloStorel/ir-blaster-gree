@@ -3,119 +3,235 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Xfria · Seu clima. Seu controle.</title>
+    <meta
+      name="description"
+      content="O Xfria liga, desliga e ajusta o ar-condicionado Gree pelo computador e pelo celular. Um ESP32 faz o papel do controle remoto."
+    />
     <meta name="theme-color" content="#151517" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Xfria" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <meta name="description" content="Seu clima. Seu controle." />
-    <meta property="og:title" content="Xfria" />
-    <meta property="og:description" content="Seu clima. Seu controle." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://xfria.storell.dev.br/" />
+    <meta property="og:title" content="Xfria · Seu clima. Seu controle." />
+    <meta property="og:description" content="O ar-condicionado Gree no computador e no celular, com um ESP32 no lugar do controle remoto." />
     <meta property="og:image" content="https://xfria.storell.dev.br/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
-    <title>Xfria</title>
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
   </head>
   <body>
-    <aside class="pitch web-only" aria-hidden="true">
-      <p class="pitch-title">Seu clima.<br /><span>Seu controle.</span></p>
-      <p class="pitch-text">O ar-condicionado do seu canto, no celular e no computador.</p>
-    </aside>
+    <!-- O símbolo do kit (marca/logos): o fluxo azul-gelo e o traço claro, separados para mudar de cor por seção. -->
+    <svg class="sprite" aria-hidden="true">
+      <symbol id="x" viewBox="0 0 356 256">
+        <path class="x-air" d="M188 64C235 24 264 0 314 0H356C354 55 316 83 241 121Z M0 256C2 207 37 177 117 135L175 188C127 230 92 256 43 256Z" />
+        <path class="x-stroke" d="M12 0H48C108 0 145 61 192 104C237 146 281 150 321 191C345 215 356 236 356 256H316C256 256 220 204 174 164C132 126 86 119 51 83C25 57 12 29 12 0Z" />
+      </symbol>
+      <symbol id="github" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+      </symbol>
+    </svg>
 
-    <main id="panel" class="card" hidden>
-      <img class="site-logo web-only" src="/brand/xfria-horizontal-dark.svg" alt="Xfria" />
-      <h1 class="room web-only">Quarto</h1>
-      <p class="temp-caption web-only">Temperatura desejada</p>
-
-      <header class="top">
-        <button id="power" class="power" type="button" aria-label="Ligar ou desligar" data-control data-icon="power"></button>
-      </header>
-
-      <section class="hero">
-        <div class="reading">
-          <p class="temp"><span id="temp" class="digits">--</span><span class="degree">°</span></p>
-          <p class="tagline"><span class="dot" aria-hidden="true"></span><span id="tagline"></span></p>
-          <div id="extras" class="extras"></div>
-        </div>
-
-        <div class="unit" title="Ligar ou desligar" aria-hidden="true">
-          <svg class="ac" viewBox="0 0 240 96">
-            <defs>
-              <linearGradient id="ac-body" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#ffffff" />
-                <stop offset="0.7" stop-color="#e9e9e7" />
-                <stop offset="1" stop-color="#cfd0ce" />
-              </linearGradient>
-              <linearGradient id="ac-vent" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0" stop-color="#3a3b3d" />
-                <stop offset="1" stop-color="#0d0d0e" />
-              </linearGradient>
-            </defs>
-            <rect x="4" y="4" width="232" height="84" rx="10" fill="url(#ac-body)" />
-            <rect x="22" y="58" width="196" height="24" rx="4" fill="#dcdcda" />
-            <rect x="28" y="66" width="184" height="14" rx="2" fill="url(#ac-vent)" />
-            <rect x="119" y="66" width="2" height="14" fill="#5a5b5d" />
-            <rect class="louver" x="28" y="66" width="184" height="14" rx="2" fill="url(#ac-body)" />
-            <rect x="196" y="50" width="18" height="2" rx="1" fill="#b9bab8" />
-          </svg>
-          <svg class="flow" viewBox="0 0 240 70">
-            <defs>
-              <linearGradient id="air" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="66">
-                <stop offset="0" stop-color="#ffffff" />
-                <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
-              </linearGradient>
-            </defs>
-            <path d="M62 4 C58 30 44 50 18 62" />
-            <path d="M120 4 C118 28 122 46 130 66" />
-            <path d="M178 4 C182 30 196 50 222 62" />
-          </svg>
-        </div>
-      </section>
-
-      <section class="adjust">
-        <button id="minus" class="step" type="button" aria-label="Diminuir temperatura" data-control data-icon="minus"></button>
-        <input id="slider" type="range" min="16" max="30" step="1" aria-label="Temperatura" data-control />
-        <button id="plus" class="step" type="button" aria-label="Aumentar temperatura" data-control data-icon="plus"></button>
-      </section>
-
-      <nav class="controls">
-        <div class="choice" data-field="mode"></div>
-        <div class="choice" data-field="fan"></div>
-        <button id="swing" class="icon-button" type="button" aria-label="Oscilar a aleta" title="Oscilar a aleta" data-control data-icon="swing"></button>
-        <div class="more">
-          <button id="more" class="icon-button" type="button" aria-label="Mais opções" aria-haspopup="menu" data-icon="more"></button>
-          <div id="more-menu" class="menu more-menu" hidden>
-            <label class="menu-row">Turbo <input id="turbo" type="checkbox" role="switch" data-control /></label>
-            <label class="menu-row">Sono <input id="sleep" type="checkbox" role="switch" data-control /></label>
-            <label class="menu-row">Eco <input id="eco" type="checkbox" role="switch" data-control /></label>
-            <label class="menu-row">Luz do display <input id="light" type="checkbox" role="switch" data-control /></label>
-            <div class="menu-row">
-              <span>Aleta</span>
-              <div id="airflow" class="segmented"></div>
-            </div>
-            <hr />
-            <label class="menu-row">Iniciar com o sistema <input id="autostart" type="checkbox" role="switch" /></label>
-            <button id="open-settings" class="menu-row menu-link" type="button">Conta do Adafruit</button>
-          </div>
-        </div>
+    <header class="topbar">
+      <a class="topbar-brand" href="#topo" aria-label="Xfria, voltar ao início">
+        <img src="/brand/xfria-horizontal-dark.svg" alt="" width="1120" height="376" />
+      </a>
+      <nav class="nav" aria-label="Seções">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#monte">Monte o seu</a>
       </nav>
-    </main>
+      <a class="button button-light button-small" href="/painel">Abrir o painel</a>
+    </header>
 
-    <main id="settings" class="card" hidden>
-      <form class="settings" autocomplete="off">
-        <img class="brand" src="/brand/xfria-horizontal-dark.svg" alt="Xfria" />
-        <h1 class="heading">Conta do Adafruit</h1>
-        <p>Em io.adafruit.com, clique no ícone da chave amarela e copie o usuário e a Active Key.</p>
-        <label>Usuário <input id="username" name="username" required spellcheck="false" /></label>
-        <label>Active Key <input id="key" name="key" type="password" required spellcheck="false" /></label>
-        <div class="actions">
-          <button id="cancel" class="secondary" type="button">Cancelar</button>
-          <button class="primary" type="submit">Salvar</button>
+    <main id="topo">
+      <section class="hero" aria-labelledby="hero-title">
+        <svg class="hero-x" data-depth="1" aria-hidden="true"><use href="#x" /></svg>
+
+        <div class="hero-copy">
+          <h1 class="hero-title" id="hero-title">Seu clima.<br /><span>Seu controle.</span></h1>
+          <p class="hero-lead">
+            O Xfria liga, desliga e ajusta o ar-condicionado Gree pelo computador e pelo celular. Um ESP32 faz o papel do
+            controle remoto, e você nunca mais procura o controle.
+          </p>
+          <div class="actions">
+            <a class="button button-light" href="/painel">Abrir o painel <span data-icon="arrow"></span></a>
+            <a class="button button-outline" href="https://github.com/SauloStorel/ir-blaster-gree">
+              <svg class="icon" aria-hidden="true"><use href="#github" /></svg> Ver no GitHub
+            </a>
+          </div>
+          <p class="hero-note">Feito para ar-condicionado Gree. Código aberto.</p>
         </div>
-      </form>
+
+        <figure class="hero-demo">
+          <div class="phone">
+            <iframe src="/painel?demo" title="Demonstração do painel do Xfria com um ar simulado"></iframe>
+          </div>
+          <figcaption>Pode mexer: é o painel de verdade, com um ar simulado.</figcaption>
+        </figure>
+      </section>
+
+      <section class="steps paper" id="como-funciona" aria-labelledby="steps-title">
+        <div class="section-head">
+          <h2 class="section-title" id="steps-title">Um toque. O ar responde.</h2>
+          <p class="section-lead">
+            Sem app de fabricante e sem conta em nuvem de terceiros. O caminho entre o seu dedo e o ar é curto, e é seu.
+          </p>
+        </div>
+        <ol class="step-list">
+          <li class="step">
+            <span class="tile" data-icon="sliders"></span>
+            <h3>Você ajusta no painel</h3>
+            <p>Temperatura, modo e ventilação, no computador, na barra ou no celular.</p>
+          </li>
+          <li class="step">
+            <span class="tile" data-icon="cloud"></span>
+            <h3>O comando vai pela internet</h3>
+            <p>O painel publica no Adafruit IO, um broker MQTT gratuito, com conexão criptografada.</p>
+          </li>
+          <li class="step">
+            <span class="tile" data-icon="remote"></span>
+            <h3>O ESP32 vira o controle</h3>
+            <p>Ele recebe o comando e dispara o mesmo sinal infravermelho do controle original da Gree.</p>
+          </li>
+          <li class="step">
+            <span class="tile" data-icon="check"></span>
+            <h3>O painel confirma</h3>
+            <p>O ESP32 devolve o estado do ar. Se ele não responder em 5 segundos, o painel volta atrás e avisa.</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="places" aria-labelledby="places-title">
+        <div class="section-head">
+          <h2 class="section-title" id="places-title">Onde você estiver.</h2>
+          <p class="section-lead">O mesmo painel em três lugares, sempre com o estado que o ar confirmou.</p>
+        </div>
+        <ul class="place-list">
+          <li class="place">
+            <div class="place-art">
+              <img src="/site/painel-pc.webp" alt="Painel do Xfria no computador, com 22 graus e o ar ligado" width="880" height="880" loading="lazy" />
+            </div>
+            <h3>Windows</h3>
+            <p>Fica na bandeja, perto do relógio. Um clique abre o painel colado no ícone, e ele já começa com o sistema.</p>
+          </li>
+          <li class="place">
+            <div class="place-art place-art-bar" aria-hidden="true">
+              <div class="bar">
+                <span class="bar-spaces"><i class="on"></i><i></i><i></i></span>
+                <span class="bar-end">
+                  <span class="bar-ac"><span data-icon="snowflake"></span>22°</span>
+                  <span class="bar-clock">21:04</span>
+                </span>
+              </div>
+              <p class="bar-hint">Role a roda do mouse sobre a temperatura.</p>
+            </div>
+            <h3>Linux com Omarchy</h3>
+            <p>Mora na barra, com a temperatura sempre à vista. A roda do mouse ajusta sem abrir nada, e um clique abre o painel.</p>
+          </li>
+          <li class="place">
+            <div class="place-art">
+              <img src="/site/celular.webp" alt="Xfria aberto no celular" width="780" height="1688" loading="lazy" />
+            </div>
+            <h3>Celular</h3>
+            <p>Abra <strong>xfria.storell.dev.br/painel</strong> e adicione à tela inicial. Funciona fora de casa também.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="features" id="recursos" aria-labelledby="features-title">
+        <div class="section-head">
+          <h2 class="section-title" id="features-title">Tudo o que o controle faz.</h2>
+          <p class="section-lead">E um pouco mais, porque agora o ar conta para o painel o que recebeu.</p>
+        </div>
+        <ul class="feature-list">
+          <li>
+            <span data-icon="thermometer"></span>
+            <h3>16 a 30 °C, grau a grau</h3>
+            <p>Nos botões, no controle deslizante, na roda do mouse ou nas setas do teclado.</p>
+          </li>
+          <li>
+            <span data-icon="snowflake"></span>
+            <h3>Cinco modos</h3>
+            <p>Frio, Seco, Ventilar, Quente e Automático. O ar desenhado muda de cor junto.</p>
+          </li>
+          <li>
+            <span data-icon="fan"></span>
+            <h3>Ventilação e Turbo</h3>
+            <p>Quatro velocidades e o Turbo para gelar rápido. O fluxo de ar sopra mais forte na tela.</p>
+          </li>
+          <li>
+            <span data-icon="swing"></span>
+            <h3>Aleta do seu jeito</h3>
+            <p>Oscilando, ou parada em cima, no meio ou embaixo.</p>
+          </li>
+          <li>
+            <span data-icon="moon"></span>
+            <h3>Sono, Eco e luz do display</h3>
+            <p>Os extras do controle original, no menu de três pontos.</p>
+          </li>
+          <li>
+            <span data-icon="check"></span>
+            <h3>Confirmação de verdade</h3>
+            <p>O painel mostra o que o ar recebeu, não só o que você pediu.</p>
+          </li>
+          <li>
+            <span data-icon="history"></span>
+            <h3>Lembra de tudo</h3>
+            <p>O ESP32 guarda o último estado e volta igual depois de uma queda de energia.</p>
+          </li>
+          <li>
+            <span data-icon="globe"></span>
+            <h3>De qualquer lugar</h3>
+            <p>Ligue o ar no caminho de casa. Basta ter internet no celular e Wi-Fi perto do ar.</p>
+          </li>
+        </ul>
+      </section>
+
+      <section class="build paper" id="monte" aria-labelledby="build-title">
+        <div class="build-copy">
+          <h2 class="section-title" id="build-title">Cabe na palma da mão.</h2>
+          <p class="section-lead">Um ESP32, um emissor infravermelho e uma caixinha impressa em 3D, ligados com jumpers e sem solda.</p>
+          <ul class="parts">
+            <li><b>ESP32 DevKit</b><span>30 pinos, ligado numa fonte USB perto do ar</span></li>
+            <li><b>Emissor IR KY-005</b><span>no D4 e no GND; um transistor NPN aumenta o alcance</span></li>
+            <li><b>Conta no Adafruit IO</b><span>gratuita, leva o comando do painel até o ESP32</span></li>
+            <li><b>Caixa impressa em 3D</b><span>64 × 50,4 × 35,4 mm em PLA, sem suporte e fechada por encaixe</span></li>
+          </ul>
+          <ol class="setup">
+            <li>Grave o firmware no ESP32 com o <code>arduino-cli</code>.</li>
+            <li>Crie a conta no Adafruit IO e copie a Active Key.</li>
+            <li>Abra o painel e cole o usuário e a chave. Pronto.</li>
+          </ol>
+          <div class="actions">
+            <a class="button button-dark" href="https://github.com/SauloStorel/ir-blaster-gree#readme">
+              Passo a passo no GitHub <span data-icon="arrow"></span>
+            </a>
+          </div>
+          <p class="note">Testado com um Gree que usa o protocolo YAW1F. Outros modelos da marca podem precisar de ajuste no firmware.</p>
+        </div>
+        <figure class="build-art">
+          <img src="/site/caixa.webp" alt="Caixa do Xfria impressa em PLA vermelho, com o furo do LED na frente" width="1100" height="780" loading="lazy" />
+          <figcaption>Render das malhas reais da caixa.</figcaption>
+        </figure>
+      </section>
+
+      <section class="closing" aria-labelledby="closing-title">
+        <svg class="closing-x" aria-hidden="true"><use href="#x" /></svg>
+        <h2 class="closing-title" id="closing-title">O conforto<br />começa aqui.</h2>
+        <p class="closing-lead">Abra o painel e deixe o ar do seu jeito.</p>
+        <a class="button button-light" href="/painel">Abrir o painel <span data-icon="arrow"></span></a>
+      </section>
     </main>
 
-    <script type="module" src="/src/main.js"></script>
+    <footer class="footer">
+      <img src="/brand/xfria-horizontal-dark.svg" alt="Xfria" width="1120" height="376" />
+      <p>Seu clima. Seu controle. Um projeto pessoal de código aberto.</p>
+      <nav aria-label="Links">
+        <a href="/painel">Painel</a>
+        <a href="https://github.com/SauloStorel/ir-blaster-gree">GitHub</a>
+      </nav>
+    </footer>
+
+    <script type="module" src="/site/main.js"></script>
   </body>
 </html>

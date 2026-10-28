@@ -145,8 +145,11 @@ push em `main` que mexa em `app/`, ou manualmente na aba Actions. Ele fica nos a
 (`instalador-windows`). No Windows, o app passa a iniciar com o sistema, escondido na bandeja, já na
 primeira vez que abre; a opção "Iniciar com o sistema" do menu "•••" desliga isso.
 
-**Celular (Xfria):** o mesmo painel como PWA, publicado na Vercel a partir de `app/` (`vercel.json`).
-Abra o endereço no celular e use "Adicionar à tela inicial"; as credenciais ficam só naquele navegador.
+**Site (Xfria):** publicado na Vercel a partir de `app/` (`vercel.json`), em https://xfria.storell.dev.br.
+A raiz é a apresentação (`app/index.html` e `app/site/`), com o painel de verdade numa demonstração com ar
+simulado (`/painel?demo`, em `app/src/demo.js`). O painel em si fica em `/painel` (`app/painel.html`), que
+também é a página que o Tauri abre: no celular, abra `/painel` e use "Adicionar à tela inicial"; as
+credenciais ficam só naquele navegador.
 O que muda entre as versões mora em `app/src/platform/` (`desktop.js` com o Tauri, `web.js` com o
 navegador), escolhido pelo modo do Vite.
 
