@@ -1,4 +1,6 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+// Mesma duração das animações enter-*/leave-* do style.css.
+const ROLL_MS = 380
 
 function directionOf(from, to) {
   if (typeof from !== "number" || typeof to !== "number") return null
@@ -21,9 +23,12 @@ export function createRollingNumber(container) {
       return
     }
 
+    // Sobras de uma troca anterior ainda em andamento saem já, para não empilhar números.
     const previous = container.lastElementChild
+    for (const stale of [...container.children].slice(0, -1)) stale.remove()
     previous?.classList.add(`leave-${direction}`)
-    previous?.addEventListener("animationend", () => previous.remove(), { once: true })
+    // Timer em vez de animationend: com a janela oculta ou minimizada o evento pode nunca chegar.
+    setTimeout(() => previous?.remove(), ROLL_MS)
     next.classList.add(`enter-${direction}`)
     container.append(next)
   }
