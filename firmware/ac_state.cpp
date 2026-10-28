@@ -48,6 +48,7 @@ void applyCommand(AcState& state, const JsonDocument& command) {
   state.sleep = command["sleep"] | state.sleep;
   state.eco = command["eco"] | state.eco;
   state.turbo = command["turbo"] | state.turbo;
+  state.light = command["light"] | state.light;
 }
 
 void writeJson(const AcState& state, JsonDocument& doc) {
@@ -59,4 +60,5 @@ void writeJson(const AcState& state, JsonDocument& doc) {
   doc["sleep"] = state.sleep;
   doc["eco"] = state.eco;
   doc["turbo"] = state.turbo;
+  doc["light"] = state.light;
 }

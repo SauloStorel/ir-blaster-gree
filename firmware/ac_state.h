@@ -12,6 +12,7 @@ struct AcState {
   bool sleep = false;
   bool eco = false;
   bool turbo = false;
+  bool light = false;  // luz do display da unidade interna
 };
 
 // Aplica um comando parcial, ex.: {"power": true, "temp": 22}.
