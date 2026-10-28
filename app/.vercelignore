@@ -1,0 +1,6 @@
+# Só o front-end vai para a Vercel; o build do celular não usa o Tauri.
+node_modules
+dist
+dist-web
+src-tauri
+install
