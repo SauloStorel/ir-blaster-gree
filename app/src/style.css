@@ -12,6 +12,9 @@
   --blow: 3s;
   --air-strength: 0.85;
   --air-width: 2.2;
+  /* Movimento da marca (marca/sistema/tokens.json); o ar e a aleta têm ciclos próprios. */
+  --duration: 240ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --font: "Inter Variable", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
   color-scheme: dark;
 }
@@ -106,7 +109,7 @@ svg {
 /* Botões afundam ao clicar */
 
 button {
-  transition: transform 0.12s ease-out, background 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: transform var(--duration) var(--ease), background var(--duration), color var(--duration), box-shadow var(--duration);
 }
 
 button:active:not(:disabled) {
@@ -132,7 +135,7 @@ button:active:not(:disabled) {
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 10px rgb(255 77 90 / 0.6);
-  transition: background 0.3s, box-shadow 0.3s;
+  transition: background var(--duration), box-shadow var(--duration);
 }
 
 .card:not([data-status="ready"]) .dot {
@@ -160,7 +163,7 @@ button:active:not(:disabled) {
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--muted);
-  transition: color 0.2s, box-shadow 0.2s;
+  transition: color var(--duration), box-shadow var(--duration);
 }
 
 .power svg {
@@ -192,7 +195,7 @@ button:active:not(:disabled) {
   letter-spacing: -0.05em;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-  transition: opacity 0.3s;
+  transition: opacity var(--duration);
 }
 
 .digits {
@@ -207,19 +210,19 @@ button:active:not(:disabled) {
 }
 
 .enter-up {
-  animation: enter-up 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: enter-up var(--duration) var(--ease);
 }
 
 .leave-up {
-  animation: leave-up 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: leave-up var(--duration) var(--ease) forwards;
 }
 
 .enter-down {
-  animation: enter-down 0.38s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: enter-down var(--duration) var(--ease);
 }
 
 .leave-down {
-  animation: leave-down 0.38s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation: leave-down var(--duration) var(--ease) forwards;
 }
 
 @keyframes enter-up {
@@ -285,7 +288,7 @@ button:active:not(:disabled) {
   color: var(--accent);
   font-size: 12.5px;
   font-weight: 600;
-  animation: chip-in 0.25s ease-out;
+  animation: chip-in var(--duration) var(--ease);
 }
 
 .chip svg {
@@ -321,7 +324,7 @@ button:active:not(:disabled) {
   width: 100%;
   height: auto;
   filter: drop-shadow(0 10px 18px rgb(0 0 0 / 0.55));
-  transition: transform 0.2s ease-out;
+  transition: transform var(--duration) var(--ease);
 }
 
 .unit:hover .ac {
@@ -658,7 +661,7 @@ button:active:not(:disabled) {
   border-radius: 12px;
   background: var(--track);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--duration);
 }
 
 .menu-row input[type="checkbox"]::after {
@@ -670,7 +673,7 @@ button:active:not(:disabled) {
   height: 17px;
   border-radius: 50%;
   background: #ffffff;
-  transition: translate 0.2s;
+  transition: translate var(--duration) var(--ease);
 }
 
 .menu-row input[type="checkbox"]:checked {
@@ -713,6 +716,12 @@ button:active:not(:disabled) {
   flex-direction: column;
   gap: 14px;
   height: 100%;
+}
+
+.brand {
+  align-self: flex-start;
+  height: 30px;
+  margin: -4px 0 4px -6px;
 }
 
 .settings p {

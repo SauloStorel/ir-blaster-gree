@@ -1,6 +1,6 @@
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
-// Mesma duração das animações enter-*/leave-* do style.css.
-const ROLL_MS = 380
+// Mesma duração das animações enter-*/leave-* do style.css (--duration).
+const ROLL_MS = 240
 
 function directionOf(from, to) {
   if (typeof from !== "number" || typeof to !== "number") return null
