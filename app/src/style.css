@@ -178,7 +178,8 @@ button:active:not(:disabled) {
 
 .hero {
   display: grid;
-  grid-template-columns: auto 1fr;
+  /* O ar fica com até 210px; frases de status longas quebram linha em vez de espremê-lo. */
+  grid-template-columns: 1fr minmax(0, 210px);
   align-items: center;
   gap: 12px;
   margin-block: 6px 18px;
@@ -190,6 +191,7 @@ button:active:not(:disabled) {
   line-height: 0.95;
   letter-spacing: -0.05em;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
   transition: opacity 0.3s;
 }
 
@@ -437,7 +439,9 @@ button:active:not(:disabled) {
 
 /* Slider em pílula */
 
+/* Slider e controles ficam presos ao pé do cartão; a sobra de altura vai para cima deles. */
 .adjust {
+  margin-top: auto;
   display: flex;
   align-items: center;
   gap: 6px;

@@ -1,4 +1,6 @@
-# IR blaster Wi-Fi para ar-condicionado Gree
+# Xfria
+
+IR blaster Wi-Fi para ar-condicionado Gree. Identidade visual (logos, ícones, cores, guia) em `marca/`.
 
 Controle de um ar-condicionado Gree de qualquer lugar, usando um ESP32 que imita o controle
 remoto infravermelho e um app web próprio.
@@ -122,10 +124,10 @@ bar/ar-gree send '{"power": true}'        # manda um comando pelo terminal
 bar/ar-gree watch                         # mostra o estado em tempo real
 ```
 
-## Painel (Windows e Linux)
+## Painel (Windows, Linux e celular)
 
 Em `app/`: um app [Tauri](https://tauri.app) com o painel "meu canto": liga/desliga, temperatura,
-modo, ventilação e oscilar; no menu "•••", turbo, sono, eco, posição da aleta e a conta do Adafruit. O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
+modo, ventilação e oscilar; no menu "•••", turbo, sono, eco, luz do display, posição da aleta e a conta do Adafruit. O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
 para o Adafruit IO por WebSocket.
 
 - **Linux:** clique no ícone da barra do Omarchy abre e fecha o painel no canto superior direito
@@ -143,6 +145,16 @@ push em `main` que mexa em `app/`, ou manualmente na aba Actions. Ele fica nos a
 (`instalador-windows`). No Windows, o app passa a iniciar com o sistema, escondido na bandeja, já na
 primeira vez que abre; a opção "Iniciar com o sistema" do menu "•••" desliga isso.
 
+**Celular (Xfria):** o mesmo painel como PWA, publicado na Vercel a partir de `app/` (`vercel.json`).
+Abra o endereço no celular e use "Adicionar à tela inicial"; as credenciais ficam só naquele navegador.
+O que muda entre as versões mora em `app/src/platform/` (`desktop.js` com o Tauri, `web.js` com o
+navegador), escolhido pelo modo do Vite.
+
+```sh
+npm run dev:web             # em app/: versão do celular na rede local (porta 1420)
+npm run build:web           # gera app/dist-web/
+```
+
 No Linux com NVIDIA, a janela é opaca de propósito: com transparência o WebKitGTK não desenha o conteúdo.
 Os cantos arredondados vêm da regra do Hyprland.
 
@@ -154,7 +166,7 @@ Os cantos arredondados vêm da regra do Hyprland.
       testados do computador.
 - [x] Plugin na barra do Omarchy, testado com o simulador.
 - [x] Painel desktop (Tauri) para Windows e Linux, aberto pela barra no Linux.
-- [ ] Gerar o instalador do Windows (compilar num PC com Windows ou via GitHub Actions).
-- [ ] App web/PWA para o celular, reaproveitando o painel.
+- [x] Instalador do Windows gerado pelo GitHub Actions.
+- [x] App web/PWA para o celular (Xfria), reaproveitando o painel.
 - [ ] Fechar o pedido das peças e confirmar o transistor que tem em casa.
 - [ ] Quando o ESP32 chegar: ler o controle com o receptor para confirmar o modelo Gree (`kGreeModel`).

@@ -40,10 +40,13 @@ export const CHOICES = {
 // Posições fixas da aleta, usadas quando o oscilar está desligado.
 export const FIXED_AIRFLOWS = CHOICES.airflow.options.filter((option) => option.value !== "swing")
 
-// Extras liga/desliga: ficam no menu "•••" (um <input id> com o nome do campo) e,
-// quando ativos, aparecem como etiquetas embaixo da temperatura.
-export const EXTRAS = [
+// Liga/desliga do menu "•••" (um <input id> com o nome do campo).
+export const SWITCHES = [
   { field: "turbo", name: "Turbo", icon: Zap },
   { field: "sleep", name: "Sono", icon: Moon },
   { field: "eco", name: "Eco", icon: Leaf },
+  { field: "light", name: "Luz do display" },
 ]
+
+// Os que têm ícone, quando ativos, aparecem como etiquetas embaixo da temperatura.
+export const EXTRAS = SWITCHES.filter((option) => option.icon)

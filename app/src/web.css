@@ -1,0 +1,28 @@
+/* Celular: o cartão ocupa a largura da tela, centralizado, longe do entalhe e da barra de gestos. */
+
+html,
+body {
+  height: auto;
+  min-height: 100dvh;
+  overflow: auto;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  min-height: 440px;
+  padding: calc(20px + env(safe-area-inset-top)) calc(22px + env(safe-area-inset-right))
+    calc(14px + env(safe-area-inset-bottom)) calc(22px + env(safe-area-inset-left));
+}
+
+/* Abaixo de 16px o Safari do iPhone dá zoom ao tocar no campo. */
+.settings input {
+  font-size: 16px;
+}

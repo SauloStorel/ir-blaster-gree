@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "storell.ar-gree",
-  "name": "Ar Gree",
+  "name": "Xfria",
   "version": "1.0.0",
   "author": "storell",
   "description": "Liga, desliga e ajusta o ar-condicionado Gree pelo IR blaster Wi-Fi",
@@ -12,7 +12,7 @@
     "barWidget": "BarWidget.qml"
   },
   "barWidget": {
-    "displayName": "Ar Gree",
+    "displayName": "Xfria",
     "description": "Liga, desliga e ajusta o ar-condicionado Gree",
     "category": "Info",
     "allowMultiple": false

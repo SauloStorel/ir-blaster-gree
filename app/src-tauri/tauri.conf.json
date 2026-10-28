@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Ar Gree",
+  "productName": "Xfria",
   "version": "0.1.0",
   "identifier": "dev.storell.argree",
   "build": {
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "panel",
-        "title": "Ar-condicionado",
+        "title": "Xfria",
         "width": 440,
         "height": 440,
         "resizable": false,

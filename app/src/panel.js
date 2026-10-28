@@ -1,6 +1,6 @@
 import { ChevronDown, createElement } from "lucide"
 
-import { CHOICES, EXTRAS, FIXED_AIRFLOWS, MAX_TEMP, MIN_TEMP } from "./options.js"
+import { CHOICES, EXTRAS, FIXED_AIRFLOWS, MAX_TEMP, MIN_TEMP, SWITCHES } from "./options.js"
 import { createRollingNumber } from "./rolling.js"
 import { clampTemp } from "./state.js"
 
@@ -203,7 +203,7 @@ export function createPanel(root, { onOpenSettings }) {
     const swinging = acState.airflow === "swing"
     change({ airflow: swinging ? fixedAirflow : "swing" })
   })
-  for (const { field } of EXTRAS) {
+  for (const { field } of SWITCHES) {
     $(`#${field}`).addEventListener("change", (event) => change({ [field]: event.target.checked }))
   }
   $("#more").addEventListener("click", (event) => {
@@ -248,7 +248,7 @@ export function createPanel(root, { onOpenSettings }) {
     $("#slider").value = temp
     $("#slider").style.setProperty("--fill", `${((temp - MIN_TEMP) / (MAX_TEMP - MIN_TEMP)) * 100}%`)
     $("#swing").setAttribute("aria-pressed", airflow === "swing")
-    for (const { field } of EXTRAS) $(`#${field}`).checked = Boolean(acState?.[field])
+    for (const { field } of SWITCHES) $(`#${field}`).checked = Boolean(acState?.[field])
     renderers.forEach((render) => render())
   }
 

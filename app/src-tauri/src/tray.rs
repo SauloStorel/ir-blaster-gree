@@ -10,7 +10,7 @@ pub fn setup(app: &App) -> tauri::Result<()> {
 
     TrayIconBuilder::new()
         .icon(app.default_window_icon().cloned().expect("ícone do app"))
-        .tooltip("Ar Gree")
+        .tooltip("Xfria")
         .menu(&Menu::with_items(app, &[&quit])?)
         .show_menu_on_left_click(false)
         .on_menu_event(|app, event| {

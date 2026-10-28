@@ -1,14 +1,12 @@
 import "@fontsource-variable/inter"
 import "./style.css"
 
-import { invoke } from "@tauri-apps/api/core"
-import { getCurrentWindow } from "@tauri-apps/api/window"
 import { Ellipsis, Minus, Plus, Power, RotateCcwSquare, createElement } from "lucide"
 
 import { connect } from "./connection.js"
 import { createPanel } from "./panel.js"
 import { createSettings } from "./settings.js"
-import { setupStartupToggle } from "./startup.js"
+import * as platform from "#platform"
 
 const STATIC_ICONS = { power: Power, minus: Minus, plus: Plus, swing: RotateCcwSquare, more: Ellipsis }
 
@@ -36,7 +34,7 @@ const panel = createPanel(views.panel, { onOpenSettings: openSettings })
 
 const settings = createSettings(views.settings, {
   async onSave(next) {
-    await invoke("save_credentials", { credentials: next })
+    await platform.saveCredentials(next)
     credentials = next
     start()
   },
@@ -46,12 +44,12 @@ const settings = createSettings(views.settings, {
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return
   panel.closeMenus()
-  getCurrentWindow().hide()
+  platform.hide()
 })
 
 async function main() {
-  setupStartupToggle(document.querySelector("#autostart"))
-  credentials = await invoke("load_credentials")
+  platform.setupStartupToggle(document.querySelector("#autostart"))
+  credentials = await platform.loadCredentials()
   if (credentials) start()
   else openSettings()
 }

@@ -7,3 +7,5 @@ app/src-tauri/gen/
 
 # Backups automáticos do FreeCAD
 *.FCBak
+app/dist-web/
+app/.vercel/
