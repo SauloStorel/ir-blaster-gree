@@ -1,6 +1,6 @@
 /* Site (PWA): o painel com a identidade do Xfria (marca/sistema), a partir do conceito
    do kit. Temperatura em destaque, azul-gelo para o ar e informações, vermelho só na
-   ação de desligar, superfícies planas e o X recortado no fundo. */
+   ação de desligar, e superfícies planas. */
 
 :root {
   --ice: #d4ebff;
@@ -20,18 +20,6 @@ body {
   display: grid;
   place-items: center;
   -webkit-tap-highlight-color: transparent;
-}
-
-/* O X ampliado e recortado pela borda, quase da cor do fundo. */
-body::before {
-  content: "";
-  position: fixed;
-  right: -38vmin;
-  bottom: -26vmin;
-  width: 120vmin;
-  aspect-ratio: 476 / 376;
-  background: url("/brand/x-fundo.svg") center / contain no-repeat;
-  pointer-events: none;
 }
 
 .card {
