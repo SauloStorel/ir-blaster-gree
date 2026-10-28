@@ -1,0 +1,370 @@
+{
+  "marca": "Xfria",
+  "versao": "1.0",
+  "arquivos": [
+    {
+      "arquivo": "LEIA-ME.txt",
+      "bytes": 1093
+    },
+    {
+      "arquivo": "Xfria-Guia-de-Identidade.pdf",
+      "bytes": 967215
+    },
+    {
+      "arquivo": "Xfria-Visao-Geral.png",
+      "bytes": 175318
+    },
+    {
+      "arquivo": "Xfria-Visao-Geral.svg",
+      "bytes": 250336
+    },
+    {
+      "arquivo": "campanha/banner-1920x640.png",
+      "bytes": 76527
+    },
+    {
+      "arquivo": "campanha/banner-1920x640.svg",
+      "bytes": 28375
+    },
+    {
+      "arquivo": "campanha/capa-compartilhamento-1200x630.png",
+      "bytes": 57548
+    },
+    {
+      "arquivo": "campanha/capa-compartilhamento-1200x630.svg",
+      "bytes": 29725
+    },
+    {
+      "arquivo": "campanha/card-1080x1080.png",
+      "bytes": 66396
+    },
+    {
+      "arquivo": "campanha/card-1080x1080.svg",
+      "bytes": 23286
+    },
+    {
+      "arquivo": "campanha/card-claro-1080x1080.png",
+      "bytes": 59346
+    },
+    {
+      "arquivo": "campanha/card-claro-1080x1080.svg",
+      "bytes": 13454
+    },
+    {
+      "arquivo": "campanha/como-funciona-1080x1350.png",
+      "bytes": 70050
+    },
+    {
+      "arquivo": "campanha/como-funciona-1080x1350.svg",
+      "bytes": 96567
+    },
+    {
+      "arquivo": "campanha/story-1080x1920.png",
+      "bytes": 94859
+    },
+    {
+      "arquivo": "campanha/story-1080x1920.svg",
+      "bytes": 31136
+    },
+    {
+      "arquivo": "fontes/Inter-Variable.ttf",
+      "bytes": 876576
+    },
+    {
+      "arquivo": "fontes/OFL.txt",
+      "bytes": 4377
+    },
+    {
+      "arquivo": "fundos/desktop-dark-1920x1080.png",
+      "bytes": 47653
+    },
+    {
+      "arquivo": "fundos/desktop-dark-1920x1080.svg",
+      "bytes": 539
+    },
+    {
+      "arquivo": "fundos/desktop-light-1920x1080.png",
+      "bytes": 39803
+    },
+    {
+      "arquivo": "fundos/desktop-light-1920x1080.svg",
+      "bytes": 539
+    },
+    {
+      "arquivo": "fundos/mobile-1080x1920.png",
+      "bytes": 49606
+    },
+    {
+      "arquivo": "fundos/mobile-1080x1920.svg",
+      "bytes": 538
+    },
+    {
+      "arquivo": "guia/pagina-01.svg",
+      "bytes": 55614
+    },
+    {
+      "arquivo": "guia/pagina-02.svg",
+      "bytes": 139986
+    },
+    {
+      "arquivo": "guia/pagina-03.svg",
+      "bytes": 106735
+    },
+    {
+      "arquivo": "guia/pagina-04.svg",
+      "bytes": 59115
+    },
+    {
+      "arquivo": "guia/pagina-05.svg",
+      "bytes": 109563
+    },
+    {
+      "arquivo": "guia/pagina-06.svg",
+      "bytes": 135870
+    },
+    {
+      "arquivo": "guia/pagina-07.svg",
+      "bytes": 123021
+    },
+    {
+      "arquivo": "guia/pagina-08.svg",
+      "bytes": 123397
+    },
+    {
+      "arquivo": "guia/pagina-09.svg",
+      "bytes": 125729
+    },
+    {
+      "arquivo": "guia/pagina-10.svg",
+      "bytes": 129609
+    },
+    {
+      "arquivo": "guia/pagina-11.svg",
+      "bytes": 144228
+    },
+    {
+      "arquivo": "guia/pagina-12.svg",
+      "bytes": 170345
+    },
+    {
+      "arquivo": "guia/pagina-13.svg",
+      "bytes": 171442
+    },
+    {
+      "arquivo": "icones/conexao.svg",
+      "bytes": 258
+    },
+    {
+      "arquivo": "icones/energia.svg",
+      "bytes": 228
+    },
+    {
+      "arquivo": "icones/fluxo.svg",
+      "bytes": 272
+    },
+    {
+      "arquivo": "icones/mais.svg",
+      "bytes": 213
+    },
+    {
+      "arquivo": "icones/menos.svg",
+      "bytes": 204
+    },
+    {
+      "arquivo": "icones/temperatura.svg",
+      "bytes": 245
+    },
+    {
+      "arquivo": "icones/xfria-app-dark.png",
+      "bytes": 20208
+    },
+    {
+      "arquivo": "icones/xfria-app-dark.svg",
+      "bytes": 534
+    },
+    {
+      "arquivo": "icones/xfria-app-light.png",
+      "bytes": 17542
+    },
+    {
+      "arquivo": "icones/xfria-app-light.svg",
+      "bytes": 534
+    },
+    {
+      "arquivo": "icones/xfria-dark-128.png",
+      "bytes": 4647
+    },
+    {
+      "arquivo": "icones/xfria-dark-16.png",
+      "bytes": 552
+    },
+    {
+      "arquivo": "icones/xfria-dark-256.png",
+      "bytes": 9569
+    },
+    {
+      "arquivo": "icones/xfria-dark-32.png",
+      "bytes": 1059
+    },
+    {
+      "arquivo": "icones/xfria-dark-48.png",
+      "bytes": 1706
+    },
+    {
+      "arquivo": "icones/xfria-dark-64.png",
+      "bytes": 2264
+    },
+    {
+      "arquivo": "icones/xfria-light-128.png",
+      "bytes": 4044
+    },
+    {
+      "arquivo": "icones/xfria-light-16.png",
+      "bytes": 486
+    },
+    {
+      "arquivo": "icones/xfria-light-256.png",
+      "bytes": 8336
+    },
+    {
+      "arquivo": "icones/xfria-light-32.png",
+      "bytes": 972
+    },
+    {
+      "arquivo": "icones/xfria-light-48.png",
+      "bytes": 1459
+    },
+    {
+      "arquivo": "icones/xfria-light-64.png",
+      "bytes": 1971
+    },
+    {
+      "arquivo": "icones/xfria.ico",
+      "bytes": 30803
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-dark.png",
+      "bytes": 27011
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-dark.svg",
+      "bytes": 2765
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-light.png",
+      "bytes": 26958
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-light.svg",
+      "bytes": 2765
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-mono-dark.png",
+      "bytes": 26617
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-mono-dark.svg",
+      "bytes": 2765
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-mono-light.png",
+      "bytes": 26842
+    },
+    {
+      "arquivo": "logos/xfria-horizontal-mono-light.svg",
+      "bytes": 2765
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-dark.png",
+      "bytes": 13270
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-dark.svg",
+      "bytes": 450
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-light.png",
+      "bytes": 13471
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-light.svg",
+      "bytes": 450
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-mono-dark.png",
+      "bytes": 13019
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-mono-dark.svg",
+      "bytes": 450
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-mono-light.png",
+      "bytes": 13852
+    },
+    {
+      "arquivo": "logos/xfria-simbolo-mono-light.svg",
+      "bytes": 450
+    },
+    {
+      "arquivo": "logos/xfria-vertical-dark.png",
+      "bytes": 21866
+    },
+    {
+      "arquivo": "logos/xfria-vertical-dark.svg",
+      "bytes": 2719
+    },
+    {
+      "arquivo": "logos/xfria-vertical-light.png",
+      "bytes": 22103
+    },
+    {
+      "arquivo": "logos/xfria-vertical-light.svg",
+      "bytes": 2719
+    },
+    {
+      "arquivo": "produto/conceito-desktop-1440x900.png",
+      "bytes": 65854
+    },
+    {
+      "arquivo": "produto/conceito-desktop-1440x900.svg",
+      "bytes": 113867
+    },
+    {
+      "arquivo": "produto/tela-abertura-1440x900.png",
+      "bytes": 32932
+    },
+    {
+      "arquivo": "produto/tela-abertura-1440x900.svg",
+      "bytes": 11883
+    },
+    {
+      "arquivo": "produto/tela-descanso-1440x900.png",
+      "bytes": 35840
+    },
+    {
+      "arquivo": "produto/tela-descanso-1440x900.svg",
+      "bytes": 16148
+    },
+    {
+      "arquivo": "sistema/DESIGN.md",
+      "bytes": 2904
+    },
+    {
+      "arquivo": "sistema/design.json",
+      "bytes": 2436
+    },
+    {
+      "arquivo": "sistema/tokens.css",
+      "bytes": 177
+    },
+    {
+      "arquivo": "sistema/tokens.json",
+      "bytes": 539
+    },
+    {
+      "arquivo": "sistema/xfria-movimento.svg",
+      "bytes": 780
+    }
+  ]
+}

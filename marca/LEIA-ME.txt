@@ -1,0 +1,13 @@
+XFRIA | KIT DE IDENTIDADE VISUAL v1.0
+
+Comece por Xfria-Guia-de-Identidade.pdf e Xfria-Visao-Geral.png.
+
+A identidade original foi normalizada em vetores para garantir consistência de cor, forma e tipografia. Os SVGs contêm contornos editáveis, inclusive as letras; não dependem de fonte instalada. Os PNGs de logos têm transparência. dark = versão para fundo escuro; light = versão para fundo claro. Não use a versão dark sobre branco.
+
+A fonte Inter variável e sua licença OFL estão incluídas. As peças são RGB para uso digital; impressões exigem conversão e prova de cor.
+
+O conceito de desktop é uma proposta visual, não um aplicativo funcional. Temperatura, modo e conexão são ilustrativos. Confirme recursos e compatibilidade antes de divulgar como funcionalidades reais. A peça Como funciona expressa a jornada conceitual.
+
+Movimento: abra sistema/xfria-movimento.svg no navegador. A animação respeita a preferência de movimento reduzido.
+
+Todos os arquivos de guia/pagina-*.svg são páginas vetoriais do manual e podem ser editados em ferramentas de design.

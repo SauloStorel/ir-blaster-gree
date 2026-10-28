@@ -1,0 +1,99 @@
+{
+  "marca": "Xfria",
+  "escopo": "Kit de identidade visual e conceito estático de interface desktop",
+  "direcao": {
+    "atributos": [
+      "tecnologia doméstica premium",
+      "calma",
+      "conforto"
+    ],
+    "acabamento": "Plano, sem gradientes ou efeitos 3D",
+    "simbolo": "X abstrato de fluxos de ar cruzados e suaves",
+    "mensagem": "Seu clima. Seu controle."
+  },
+  "tokens": {
+    "colors": {
+      "graphite": "#151517",
+      "offWhite": "#f5f5f7",
+      "red": "#ff4d5a",
+      "iceBlue": "#d4ebff"
+    },
+    "typography": {
+      "family": "Inter",
+      "displayWeight": 900,
+      "headingWeight": 700,
+      "bodyWeight": 400,
+      "displayTracking": "-0.03em"
+    },
+    "spacing": [
+      4,
+      8,
+      12,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96
+    ],
+    "radius": {
+      "control": 12,
+      "appIcon": 112
+    },
+    "motion": {
+      "durationMs": 240,
+      "easing": "cubic-bezier(0.16,1,0.3,1)",
+      "reducedMotion": "disable"
+    }
+  },
+  "marcaUso": {
+    "variantes": [
+      "horizontal",
+      "vertical",
+      "símbolo isolado",
+      "monocromática"
+    ],
+    "fundos": [
+      "claro",
+      "escuro"
+    ],
+    "orientacao": "Preservar proporções, desenho e cores; selecionar a versão adequada ao contraste do fundo.",
+    "textoSvg": "Convertido em contornos"
+  },
+  "icones": {
+    "estilo": "Contorno próprio",
+    "quantidade": 6,
+    "nomes": [
+      "energia",
+      "temperatura",
+      "fluxo",
+      "conexão",
+      "mais",
+      "menos"
+    ]
+  },
+  "movimentoDemonstrativo": {
+    "arquivo": "xfria-movimento.svg",
+    "efeito": "Flutuação vertical suave",
+    "duracaoCicloMs": 3000,
+    "amplitudePx": 8,
+    "movimentoReduzido": "Animação desativada por prefers-reduced-motion: reduce",
+    "observacao": "O ciclo demonstrativo é distinto do token de transição de 240 ms."
+  },
+  "conceitoDesktop": {
+    "largura": 1440,
+    "altura": 900,
+    "composicao": "Navegação lateral clara; painel grafite; temperatura em destaque; ajuste circular; modo de operação e ação vermelha de desligar.",
+    "valores": "Ilustrativos",
+    "funcionalidadeImplementada": false
+  },
+  "revisao": {
+    "pecas": [
+      "Xfria-Visao-Geral.png",
+      "produto/conceito-desktop-1440x900.png"
+    ],
+    "disposicao": "Aprovado para entrega visual",
+    "problemasMateriais": [],
+    "limite": "Sem validação de aplicativo funcional"
+  }
+}
