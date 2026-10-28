@@ -1,0 +1,120 @@
+{
+  "interferencia_mm3": 0.0,
+  "dimensoes_externas_mm": [
+    64.0,
+    50.4,
+    35.4
+  ],
+  "microusb_lateral_esquerda": {
+    "face": "x=0",
+    "centro_y_mm": 25.2,
+    "largura_mm": 12.0,
+    "altura_mm": 9.0,
+    "altura_inferior_mm": 1.95,
+    "centro_z_mm": 6.45,
+    "usb_nativo_esp32": true
+  },
+  "topo_liso": true,
+  "ventilacao_traseira": {
+    "quantidade": 7,
+    "largura_mm": 2.4,
+    "altura_mm": 8.0,
+    "altura_inferior_mm": 12.0
+  },
+  "aberturas_ir_frontais": {
+    "quantidade": 1,
+    "receptor": false,
+    "profundidade_rebaixo_mm": 0.5,
+    "emissor_diametro_mm": 5.2,
+    "emissor_centro_x_mm": 32.0,
+    "altura_eixo_mm": 24.05
+  },
+  "acabamento": {
+    "raio_cantos_mm": 6.0,
+    "raio_borda_superior_mm": 2.0,
+    "raio_borda_inferior_mm": 1.2,
+    "raio_rebaixo_mm": 0.2,
+    "junta_mm": 0.0,
+    "raio_bordas_junta_mm": 0.05,
+    "raio_boca_furo_ir_mm": 0.15,
+    "raio_boca_usb_mm": 0.2
+  },
+  "fundo": {
+    "furos_parafusos": 0,
+    "passagens_abracadeiras": 0,
+    "rebaixos_pes": 0,
+    "espessura_mm": 2.4
+  },
+  "fechamento": {
+    "tipo": "encaixe com linguetas rampadas",
+    "travas": 4,
+    "comprimento_flexivel_mm": 12.0,
+    "espessura_lingueta_mm": 1.0,
+    "projecao_dente_mm": 0.6,
+    "deflexao_nominal_montagem_mm": 0.3,
+    "ensaio_fisico_realizado": false
+  },
+  "assentamento": {
+    "area_contato_mm2": 466.25,
+    "folga_vertical_bordas_mm": 0.0,
+    "folga_lateral_saia_mm": 0.3,
+    "contornos_externos_alinhados": true
+  },
+  "esp32_invertido": {
+    "dimensao_nominal_placa_mm": [
+      52.0,
+      29.0
+    ],
+    "componentes": "para baixo",
+    "pinos": "para cima",
+    "altura_pcb_sobre_fundo_mm": 5.45,
+    "apoios_nos_cantos_mm": [
+      2.5,
+      2.2
+    ],
+    "altura_componentes_suposta_mm": 3.5,
+    "folga_componentes_ate_fundo_mm": 1.95,
+    "folga_pinos_ate_pcb_emissor_mm": 2.0,
+    "encaixe_livre_sem_trava": true
+  },
+  "jumpers": {
+    "tipo": "Dupont f\u00eamea",
+    "capa_suposta_mm": 14.0,
+    "dobra_do_fio_mm": 7.0,
+    "fileira_esp32": "de tr\u00e1s: 3V3, GND e D4 perto do USB",
+    "medida_confirmada": false
+  },
+  "suporte_emissor": {
+    "tipo": "trilhos no teto da carca\u00e7a, entrada por tr\u00e1s",
+    "pcb_catalogo_mm": [
+      15.0,
+      18.5
+    ],
+    "apoio_por_borda_mm": 1.0,
+    "larguras_aceitas_mm": [
+      14.0,
+      16.0
+    ],
+    "altura_pcb_mm": 19.95,
+    "folga_vertical_mm": 0.15,
+    "comprimento_trilhos_mm": 15.5,
+    "medida_confirmada": false
+  },
+  "referencias_sem_interferencia": true,
+  "base": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "volume_mm3": 13353.86,
+    "triangulos": 27396
+  },
+  "tampa": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "volume_mm3": 20825.79,
+    "triangulos": 67002
+  },
+  "amostras_encaixe_stl": [
+    "teste_encaixe_base.stl",
+    "teste_encaixe_parede.stl"
+  ]
+}

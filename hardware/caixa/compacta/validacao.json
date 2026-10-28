@@ -1,0 +1,26 @@
+{
+  "interferencia_mm3": 0.0,
+  "dimensoes_externas_mm": [
+    82.0,
+    58.0,
+    30.4
+  ],
+  "esp32_mm": [
+    52,
+    29
+  ],
+  "altura_disponivel_sobre_apoios_mm": 24.58,
+  "interferencia_envelope_esp32_mm3": 0.0,
+  "base": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "volume_mm3": 15984.26,
+    "triangulos": 17516
+  },
+  "tampa": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "volume_mm3": 28899.03,
+    "triangulos": 17448
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "Base": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "triangulos": 5184,
+    "volume_mm3": 68492.93
+  },
+  "Tampa": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "triangulos": 6080,
+    "volume_mm3": 25684.29
+  },
+  "interferencia_tampa_mm3": 0.0
+}

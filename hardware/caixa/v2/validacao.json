@@ -1,0 +1,20 @@
+{
+  "interferencia_mm3": 0.0,
+  "dimensoes_externas_mm": [
+    120.0,
+    90.0,
+    40.4
+  ],
+  "base": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "volume_mm3": 33103.25,
+    "triangulos": 17648
+  },
+  "tampa": {
+    "solido_valido": true,
+    "malha_fechada": true,
+    "volume_mm3": 61517.74,
+    "triangulos": 18352
+  }
+}
