@@ -18,14 +18,23 @@
     <title>Xfria</title>
   </head>
   <body>
+    <aside class="pitch web-only" aria-hidden="true">
+      <p class="pitch-title">Seu clima.<br /><span>Seu controle.</span></p>
+      <p class="pitch-text">O ar-condicionado do seu canto, no celular e no computador.</p>
+    </aside>
+
     <main id="panel" class="card" hidden>
+      <img class="site-logo web-only" src="/brand/xfria-horizontal-dark.svg" alt="Xfria" />
+      <h1 class="room web-only">Quarto</h1>
+      <p class="temp-caption web-only">Temperatura desejada</p>
+
       <header class="top">
         <button id="power" class="power" type="button" aria-label="Ligar ou desligar" data-control data-icon="power"></button>
       </header>
 
       <section class="hero">
         <div class="reading">
-          <p class="temp"><span id="temp" class="digits">--</span>°</p>
+          <p class="temp"><span id="temp" class="digits">--</span><span class="degree">°</span></p>
           <p class="tagline"><span class="dot" aria-hidden="true"></span><span id="tagline"></span></p>
           <div id="extras" class="extras"></div>
         </div>

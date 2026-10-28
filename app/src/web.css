@@ -1,10 +1,19 @@
-/* Celular: o cartão ocupa a largura da tela, centralizado, longe do entalhe e da barra de gestos. */
+/* Site (PWA): o painel com a identidade do Xfria (marca/sistema), a partir do conceito
+   do kit. Temperatura em destaque, azul-gelo para o ar e informações, vermelho só na
+   ação de desligar, superfícies planas e o X recortado no fundo. */
+
+:root {
+  --ice: #d4ebff;
+  --graphite: #151517;
+  --radius: 12px;
+}
 
 html,
 body {
   height: auto;
   min-height: 100dvh;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
@@ -13,16 +22,321 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* O X ampliado e recortado pela borda, quase da cor do fundo. */
+body::before {
+  content: "";
+  position: fixed;
+  right: -38vmin;
+  bottom: -26vmin;
+  width: 120vmin;
+  aspect-ratio: 476 / 376;
+  background: url("/brand/x-fundo.svg") center / contain no-repeat;
+  pointer-events: none;
+}
+
 .card {
+  position: relative;
   width: 100%;
   max-width: 440px;
   height: auto;
-  min-height: 440px;
-  padding: calc(20px + env(safe-area-inset-top)) calc(22px + env(safe-area-inset-right))
-    calc(14px + env(safe-area-inset-bottom)) calc(22px + env(safe-area-inset-left));
+  padding: calc(20px + env(safe-area-inset-top)) calc(24px + env(safe-area-inset-right))
+    calc(24px + env(safe-area-inset-bottom)) calc(24px + env(safe-area-inset-left));
+  background: transparent;
+}
+
+.web-only {
+  display: revert;
+}
+
+/* Painel: os blocos do computador se desfazem e cada peça ocupa sua área. */
+
+#panel {
+  display: grid;
+  grid-template-columns: 56px 1fr 56px;
+  grid-template-areas:
+    "logo logo logo"
+    "room room room"
+    "status status status"
+    "unit unit unit"
+    "minus temp plus"
+    "caption caption caption"
+    "extras extras extras"
+    "slider slider slider"
+    "controls controls controls"
+    "power power power";
+  align-items: center;
+}
+
+#panel .top,
+#panel .hero,
+#panel .reading,
+#panel .adjust {
+  display: contents;
+}
+
+.site-logo {
+  grid-area: logo;
+  height: 28px;
+  margin: 0 0 32px -5px;
+}
+
+.room {
+  grid-area: room;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+#panel .tagline {
+  grid-area: status;
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ice);
+}
+
+#panel .dot {
+  width: 7px;
+  height: 7px;
+  background: var(--ice);
+  box-shadow: none;
+}
+
+/* O ar-condicionado em cores chapadas; o fluxo segue azul-gelo no frio. */
+
+#panel .unit {
+  grid-area: unit;
+  justify-self: center;
+  max-width: 220px;
+  margin-top: 28px;
+}
+
+#panel .ac {
+  filter: none;
+}
+
+#panel .ac rect:nth-of-type(1),
+#panel .ac .louver {
+  fill: var(--fg);
+}
+
+#panel .ac rect:nth-of-type(2) {
+  fill: #e4e4e6;
+}
+
+#panel .ac rect:nth-of-type(3) {
+  fill: var(--graphite);
+}
+
+#panel .flow path {
+  filter: none;
+}
+
+/* Temperatura: o maior elemento da tela. */
+
+#panel .temp {
+  grid-area: temp;
+  justify-self: center;
+  margin-top: 8px;
+  font-size: clamp(104px, 32vw, 148px);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.degree {
+  font-size: 0.3em;
+  font-weight: 400;
+  letter-spacing: 0;
+  vertical-align: top;
+  color: var(--ice);
+}
+
+.degree::after {
+  content: "C";
+}
+
+.temp-caption {
+  grid-area: caption;
+  justify-self: center;
+  font-size: 15px;
+  color: var(--ice);
+}
+
+#panel .extras {
+  grid-area: extras;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+#panel .chip {
+  border-radius: var(--radius);
+  background: rgb(212 235 255 / 0.12);
+  color: var(--ice);
+}
+
+#minus,
+#plus {
+  width: 56px;
+  height: 56px;
+  background: var(--fg);
+  color: var(--graphite);
+}
+
+#minus {
+  grid-area: minus;
+}
+
+#plus {
+  grid-area: plus;
+}
+
+#minus:hover:not(:disabled),
+#plus:hover:not(:disabled) {
+  background: var(--ice);
+}
+
+#slider {
+  grid-area: slider;
+  width: 100%;
+  margin-top: 16px;
+}
+
+#slider::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, var(--ice) var(--fill), var(--track) var(--fill));
+}
+
+#slider::-webkit-slider-thumb {
+  box-shadow: none;
+}
+
+.card[data-power="off"] #slider::-webkit-slider-runnable-track {
+  background: linear-gradient(90deg, var(--muted) var(--fill), var(--track) var(--fill));
+}
+
+/* Controles e menus: cantos de 12px, azul-gelo para o que está escolhido. */
+
+#panel .controls {
+  grid-area: controls;
+  margin-top: 24px;
+  padding-top: 16px;
+}
+
+.choice-button,
+.icon-button,
+.menu-row,
+.menu-item {
+  border-radius: var(--radius);
+}
+
+.choice[data-field="mode"] .chevron {
+  color: var(--muted);
+}
+
+#swing[aria-pressed="true"]::after {
+  background: var(--ice);
+}
+
+.menu {
+  border-color: var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.menu-item[aria-checked="true"] {
+  color: var(--ice);
+}
+
+.menu-row input[type="checkbox"]:checked {
+  background: var(--ice);
+}
+
+.menu-row input[type="checkbox"]:checked::after {
+  background: var(--graphite);
+}
+
+/* Ligar e desligar: a única ação em vermelho, com texto grafite. */
+
+#power {
+  grid-area: power;
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  height: 56px;
+  margin-top: 16px;
+  border: 0;
+  border-radius: var(--radius);
+  justify-content: center;
+  background: var(--fg);
+  color: var(--graphite);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+#power::after {
+  content: "Ligar";
+}
+
+.card[data-power="on"] #power {
+  background: var(--accent);
+  color: var(--graphite);
+  box-shadow: none;
+}
+
+.card[data-power="on"] #power::after {
+  content: "Desligar";
+}
+
+/* Conta do Adafruit */
+
+.settings input,
+.actions button {
+  border-radius: var(--radius);
 }
 
 /* Abaixo de 16px o Safari do iPhone dá zoom ao tocar no campo. */
 .settings input {
   font-size: 16px;
+}
+
+.primary {
+  color: var(--graphite);
+  font-weight: 700;
+}
+
+/* Tela larga: a frase da marca ao lado do painel. */
+
+.pitch {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  body {
+    grid-template-columns: minmax(0, 520px) 440px;
+    justify-content: center;
+    gap: 96px;
+  }
+
+  .pitch {
+    display: block;
+  }
+
+  .pitch-title {
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .pitch-title span {
+    color: var(--ice);
+  }
+
+  .pitch-text {
+    max-width: 360px;
+    margin-top: 24px;
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
 }

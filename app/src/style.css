@@ -28,6 +28,11 @@
   display: none !important;
 }
 
+/* Elementos só do site (web.css): marca, cômodo e legenda da temperatura. */
+.web-only {
+  display: none;
+}
+
 html,
 body {
   height: 100%;
