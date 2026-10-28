@@ -77,9 +77,20 @@ Em `firmware/`, compilado com `arduino-cli` (versões fixadas em `sketch.yaml`):
 
 ```sh
 cd firmware
-cp secrets.example.h secrets.h   # preencher Wi-Fi e a chave do Adafruit IO
+cp secrets.example.h secrets.h   # preencher Wi-Fi, a chave do Adafruit IO e a senha do OTA
 arduino-cli compile --profile esp32 .
+arduino-cli upload --profile esp32 -p /dev/ttyUSB0 .   # só a primeira vez, pelo cabo
 ```
+
+Depois da primeira gravação pelo cabo, as próximas vão pelo Wi-Fi, com o ESP32 no lugar dele:
+
+```sh
+firmware/ota-upload                  # compila e grava em ar-quarto.local
+firmware/ota-upload 192.168.18.206   # ou pelo IP, se o nome .local não resolver
+```
+
+O ESP32 baixa o firmware conectando de volta no computador, na porta 32323. Com o ufw ativo, libere
+essa porta para a rede de casa uma vez: `sudo ufw allow from 192.168.18.0/24 to any port 32323 proto tcp`.
 
 | Arquivo | Responsabilidade |
 |---|---|
@@ -88,6 +99,7 @@ arduino-cli compile --profile esp32 .
 | `gree_remote` | monta e envia o sinal IR do Gree |
 | `state_store` | guarda o último estado na flash |
 | `connection` | Wi-Fi, MQTT com TLS, reconexão e last will |
+| `ota` | atualização do firmware pelo Wi-Fi, com senha (`ota-upload`) |
 | `config.h` | pinos, modelo Gree, broker e tópicos |
 | `ca_cert.h` | certificado raiz do TLS (DigiCert Global Root G2) |
 | `receptor_ir/` | sketch à parte que lê o controle original e mostra o modelo Gree |

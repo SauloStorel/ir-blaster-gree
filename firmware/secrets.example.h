@@ -7,3 +7,6 @@ constexpr char kWifiPassword[] = "senha-da-rede";
 
 // Active Key do Adafruit IO (ícone de chave em io.adafruit.com).
 constexpr char kAioKey[] = "aio_xxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+
+// Senha da atualização pelo Wi-Fi (firmware/ota-upload). Qualquer texto difícil de adivinhar.
+constexpr char kOtaPassword[] = "troque-esta-senha";

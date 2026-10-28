@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Compila e grava o firmware no ESP32 pelo Wi-Fi, sem cabo.
+# Uso: firmware/ota-upload [endereço]  (padrão: ar-quarto.local; se o nome não resolver, passe o IP)
+#
+# Chama o espota.py do core do ESP32 direto: o arduino-cli só aceita portas de rede que ele mesmo
+# descobriu, e a descoberta por mDNS dele não acha o ESP32 em todas as redes.
+#
+# O ESP32 baixa o firmware conectando de volta no computador, sempre na HOST_PORT. Com firewall,
+# libere essa porta para a rede local uma vez, ex.: sudo ufw allow from 192.168.18.0/24 to any port 32323 proto tcp
+set -euo pipefail
+
+HOST_PORT=32323
+
+cd "$(dirname "$(realpath "$0")")"
+address="${1:-ar-quarto.local}"
+password=$(sed -n 's/.*kOtaPassword\[\] = "\(.*\)";.*/\1/p' secrets.h)
+build=$(mktemp -d)
+trap 'rm -rf "$build"' EXIT
+
+arduino-cli compile --profile esp32 --output-dir "$build" .
+platform=$(arduino-cli compile --profile esp32 --show-properties . | sed -n 's/^runtime.platform.path=//p')
+python3 "$platform/tools/espota.py" --ip "$address" --auth "$password" --host_port "$HOST_PORT" --file "$build/firmware.ino.bin" --progress

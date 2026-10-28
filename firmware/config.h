@@ -5,6 +5,11 @@
 // Pino que aciona o transistor do LED IR.
 constexpr uint16_t kIrLedPin = 4;
 
+// Paliativo: a placa atual tem uma queda rápida de tensão quando o rádio Wi-Fi liga, e o detector de
+// brownout reiniciava o ESP32 em loop. Volte para true quando houver um capacitor de 470–1000 µF
+// entre 3V3 e GND.
+constexpr bool kBrownoutDetector = false;
+
 // Variante do protocolo Gree, confirmada lendo o controle original com receptor_ir/.
 constexpr gree_ac_remote_model_t kGreeModel = gree_ac_remote_model_t::YAW1F;
 
