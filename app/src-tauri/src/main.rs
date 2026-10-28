@@ -20,9 +20,6 @@ fn main() {
         ])
         .setup(panel::setup);
 
-    #[cfg(not(target_os = "linux"))]
-    let builder = builder.plugin(tauri_plugin_positioner::init());
-
     builder
         .run(tauri::generate_context!())
         .expect("erro ao iniciar o painel");

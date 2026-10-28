@@ -16,7 +16,6 @@ tauri-plugin-autostart = "2"
 # No Linux o ícone fica na barra do Omarchy; nos outros sistemas, na bandeja.
 [target.'cfg(not(target_os = "linux"))'.dependencies]
 tauri = { version = "2", features = ["tray-icon"] }
-tauri-plugin-positioner = { version = "2", features = ["tray-icon"] }
 
 [profile.release]
 strip = true
