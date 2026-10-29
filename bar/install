@@ -3,10 +3,10 @@
 set -euo pipefail
 
 src=$(dirname "$(realpath "$0")")
-dest="$HOME/.config/omarchy/plugins/storell.ar-gree"
+dest="$HOME/.config/omarchy/plugins/storell.xfria"
 
 mkdir -p "$dest"
-cp "$src"/{manifest.json,BarWidget.qml,Model.js,ar-gree} "$dest"/
+cp "$src"/{manifest.json,BarWidget.qml,Model.js,xfria} "$dest"/
 omarchy plugin validate "$dest"
 
 # A recarga automática do plugin pode deixar a versão antiga recebendo os cliques.

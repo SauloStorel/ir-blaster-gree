@@ -10,10 +10,10 @@ pub struct Credentials {
     key: String,
 }
 
-// O mesmo arquivo do script ar-gree: ~/.config/ir-blaster-gree/credentials no Linux,
-// %APPDATA%\ir-blaster-gree\credentials no Windows.
+// O mesmo arquivo do script xfria: ~/.config/xfria/credentials no Linux,
+// %APPDATA%\xfria\credentials no Windows.
 fn path(app: &AppHandle) -> tauri::Result<PathBuf> {
-    Ok(app.path().config_dir()?.join("ir-blaster-gree").join("credentials"))
+    Ok(app.path().config_dir()?.join("xfria").join("credentials"))
 }
 
 #[tauri::command]

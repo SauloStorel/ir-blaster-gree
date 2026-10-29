@@ -1,7 +1,7 @@
 [package]
-name = "ar-gree"
+name = "xfria"
 version = "0.1.0"
-description = "Painel do ar-condicionado Gree"
+description = "Painel do Xfria, controle do ar-condicionado Gree"
 edition = "2021"
 
 [build-dependencies]

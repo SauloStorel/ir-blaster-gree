@@ -20,7 +20,7 @@ O controle remoto some, fica no outro cômodo ou acaba a pilha, e o ar não tem 
 - **Não perde o estado**: o último estado fica na flash do ESP32 e volta depois de uma queda de energia.
 - **Atualização pelo Wi-Fi**: depois da primeira gravação pelo cabo, o firmware novo vai pela rede, com senha, sem tirar a placa do lugar.
 - **Caixa para imprimir**: projetos em FreeCAD, STEP e STL em `hardware/caixa/`.
-- **Demonstração sem placa**: `/painel?demo` abre o painel com um ar simulado, e `bar/ar-gree simulate` finge ser o ESP32.
+- **Demonstração sem placa**: `/painel?demo` abre o painel com um ar simulado, e `bar/xfria simulate` finge ser o ESP32.
 
 ![Painel com o ar ligado em 22 °C](docs/painel.png)
 
@@ -50,13 +50,14 @@ ESP32 em casa ──IR──► Ar Gree
 
 ### Tópicos MQTT (feeds do Adafruit IO)
 
-Broker `io.adafruit.com:8883` (TLS), usuário `saulostorel`, senha = Active Key do Adafruit IO.
+Broker `io.adafruit.com:8883` (TLS), com o seu usuário do Adafruit IO e a Active Key como senha. Crie os três feeds abaixo
+na sua conta; `<usuário>` é o seu nome de usuário lá.
 
 | Tópico | Direção | Conteúdo |
 |---|---|---|
-| `saulostorel/feeds/ar-quarto-set` | app → ESP32 | comando parcial, ex.: `{"power": true, "temp": 22}` |
-| `saulostorel/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "airflow", "sleep", "eco", "turbo"}` |
-| `saulostorel/feeds/ar-quarto-online` | ESP32 → app | `online` / `offline` (last will) |
+| `<usuário>/feeds/ar-quarto-set` | app → ESP32 | comando parcial, ex.: `{"power": true, "temp": 22}` |
+| `<usuário>/feeds/ar-quarto-state` | ESP32 → app | `{"power", "mode", "temp", "fan", "airflow", "sleep", "eco", "turbo"}` |
+| `<usuário>/feeds/ar-quarto-online` | ESP32 → app | `online` / `offline` (last will) |
 
 O Adafruit IO não usa retain: para receber o último valor de um feed, publique qualquer coisa em
 `<feed>/get`. O plano grátis aceita até 30 mensagens por minuto e 10 feeds.
@@ -100,7 +101,7 @@ Em `firmware/`, compilado com `arduino-cli` (versões fixadas em `sketch.yaml`):
 
 ```sh
 cd firmware
-cp secrets.example.h secrets.h   # preencher Wi-Fi, a chave do Adafruit IO e a senha do OTA
+cp secrets.example.h secrets.h   # preencher Wi-Fi, usuário e chave do Adafruit IO e a senha do OTA
 arduino-cli compile --profile esp32 .
 arduino-cli upload --profile esp32 -p /dev/ttyUSB0 .   # só a primeira vez, pelo cabo
 ```
@@ -109,11 +110,11 @@ Depois da primeira gravação pelo cabo, as próximas vão pelo Wi-Fi, com o ESP
 
 ```sh
 firmware/ota-upload                  # compila e grava em ar-quarto.local
-firmware/ota-upload 192.168.18.206   # ou pelo IP, se o nome .local não resolver
+firmware/ota-upload 192.168.0.50     # ou pelo IP, se o nome .local não resolver
 ```
 
 O ESP32 baixa o firmware conectando de volta no computador, na porta 32323. Com o ufw ativo, libere
-essa porta para a rede de casa uma vez: `sudo ufw allow from 192.168.18.0/24 to any port 32323 proto tcp`.
+essa porta para a rede de casa uma vez: `sudo ufw allow from 192.168.0.0/24 to any port 32323 proto tcp` (troque pela faixa da sua rede).
 
 Para confirmar o `kGreeModel`, grave o leitor e aperte botões do controle apontado para o receptor:
 
@@ -125,24 +126,24 @@ arduino-cli monitor -p /dev/ttyUSB0 -c baudrate=115200
 
 ### 2. Painel no computador
 
-- **Linux:** `app/install` compila e instala em `~/.local/bin/ar-gree-panel`. O clique no ícone da barra
-  do Omarchy abre e fecha o painel no canto superior direito (regra de janela `ar-gree(-panel)?` em
-  `~/.config/hypr/hyprland.lua`).
+- **Linux:** `app/install` compila e instala em `~/.local/bin/xfria-panel`. O clique no ícone da barra
+  do Omarchy abre e fecha o painel no canto superior direito (com uma regra de janela para a classe `xfria-panel`
+  no Hyprland, que deixa a janela flutuante).
 - **Windows:** o instalador é gerado pelo GitHub Actions (`.github/workflows/windows-installer.yml`) a cada
   push em `main` que mexa em `app/`, ou manualmente na aba Actions. Ele fica nos artefatos da execução
   (`instalador-windows`). O painel fica no ícone da bandeja; clique abre colado nele, e o menu tem "Sair".
   O app passa a iniciar com o sistema, escondido na bandeja, já na primeira vez que abre; a opção
   "Iniciar com o sistema" do menu "•••" desliga isso.
 
-As credenciais ficam em `~/.config/ir-blaster-gree/credentials` (`AIO_USERNAME` e `AIO_KEY`, modo 600;
-no Windows, em `%APPDATA%\ir-blaster-gree\credentials`). Sem esse arquivo, o painel abre na tela de configuração.
+As credenciais ficam em `~/.config/xfria/credentials` (`AIO_USERNAME` e `AIO_KEY`, modo 600;
+no Windows, em `%APPDATA%\xfria\credentials`). Sem esse arquivo, o painel abre na tela de configuração.
 
 No Linux com NVIDIA, a janela é opaca de propósito: com transparência o WebKitGTK não desenha o conteúdo.
 Os cantos arredondados vêm da regra do Hyprland.
 
 ### 3. Barra do Omarchy
 
-Em `bar/`: um plugin da barra (`storell.ar-gree`) e o script `ar-gree`, que ele usa para falar com
+Em `bar/`: um plugin da barra (`storell.xfria`) e o script `xfria`, que ele usa para falar com
 o Adafruit IO, lendo o mesmo arquivo de credenciais do painel.
 
 | Na barra | Ação |
@@ -156,11 +157,11 @@ o Adafruit IO, lendo o mesmo arquivo de credenciais do painel.
 
 ```sh
 bar/install                               # instala ou atualiza o plugin e reinicia a barra
-omarchy plugin enable storell.ar-gree --section right
+omarchy plugin enable storell.xfria --section right
 
-bar/ar-gree simulate                      # finge ser o ESP32, para testar sem a placa
-bar/ar-gree send '{"power": true}'        # manda um comando pelo terminal
-bar/ar-gree watch                         # mostra o estado em tempo real
+bar/xfria simulate                      # finge ser o ESP32, para testar sem a placa
+bar/xfria send '{"power": true}'        # manda um comando pelo terminal
+bar/xfria watch                         # mostra o estado em tempo real
 ```
 
 ### 4. Celular e site
@@ -180,7 +181,7 @@ npm run dev:web             # versão do celular na rede local (porta 1420)
 npm run build:web           # gera app/dist-web/
 ```
 
-Para testar sem a placa, deixe `bar/ar-gree simulate` rodando num terminal: ele responde aos comandos
+Para testar sem a placa, deixe `bar/xfria simulate` rodando num terminal: ele responde aos comandos
 como o ESP32 faria. Ou abra <http://localhost:1420/painel?demo>, que não precisa nem do Adafruit IO.
 
 ## Limites
@@ -209,7 +210,7 @@ como o ESP32 faria. Ou abra <http://localhost:1420/painel?demo>, que não precis
 | `app/src/platform/` | o que muda entre as versões: `desktop.js` (Tauri) e `web.js` (navegador), escolhido pelo modo do Vite |
 | `app/src-tauri/` | janela, bandeja, credenciais e início com o sistema |
 | `app/site/` | página de apresentação |
-| `bar/` | plugin da barra do Omarchy e o script `ar-gree` |
+| `bar/` | plugin da barra do Omarchy e o script `xfria` |
 | `hardware/caixa/` | caixa do ESP32 para impressão 3D |
 | `marca/` | identidade visual: logos, ícones, cores e guia |
 
@@ -224,7 +225,7 @@ como o ESP32 faria. Ou abra <http://localhost:1420/painel?demo>, que não precis
 - [x] Instalador do Windows gerado pelo GitHub Actions.
 - [x] App web/PWA para o celular (Xfria), reaproveitando o painel.
 - [ ] Fechar o pedido das peças e confirmar o transistor que tem em casa.
-- [ ] Quando o ESP32 chegar: ler o controle com o receptor para confirmar o modelo Gree (`kGreeModel`).
+- [x] Modelo Gree confirmado lendo o controle original com o receptor (`YAW1F`).
 
 ## Contribuindo
 

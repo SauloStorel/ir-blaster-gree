@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Compila o painel e instala em ~/.local/bin/ar-gree-panel, que o plugin da barra abre.
+# Compila o painel e instala em ~/.local/bin/xfria-panel, que o plugin da barra abre.
 set -euo pipefail
 
 cd "$(dirname "$(realpath "$0")")"
 npm install --no-audit --no-fund
 npx tauri build --no-bundle
-install -Dm755 src-tauri/target/release/ar-gree "$HOME/.local/bin/ar-gree-panel"
-echo "Instalado em ~/.local/bin/ar-gree-panel"
+install -Dm755 src-tauri/target/release/xfria "$HOME/.local/bin/xfria-panel"
+echo "Instalado em ~/.local/bin/xfria-panel"

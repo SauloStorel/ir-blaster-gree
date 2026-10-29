@@ -7,11 +7,11 @@ import "Model.js" as Model
 
 BarWidget {
   id: root
-  moduleName: "storell.ar-gree"
+  moduleName: "storell.xfria"
 
-  readonly property string cli: Qt.resolvedUrl("ar-gree").toString().replace(/^file:\/\//, "")
-  // App do painel (~/ir-blaster-gree/app); abrir de novo mostra ou esconde a janela.
-  readonly property string panelApp: Quickshell.env("HOME") + "/.local/bin/ar-gree-panel"
+  readonly property string cli: Qt.resolvedUrl("xfria").toString().replace(/^file:\/\//, "")
+  // App do painel (~/xfria/app); abrir de novo mostra ou esconde a janela.
+  readonly property string panelApp: Quickshell.env("HOME") + "/.local/bin/xfria-panel"
 
   property var acState: null
   property bool online: false

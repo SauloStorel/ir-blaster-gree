@@ -10,4 +10,4 @@
 
 - [ ] Rodei `npm run build:web` em `app/` (se mexeu no painel ou no site)
 - [ ] Compilei o firmware com `arduino-cli compile --profile esp32 .` (se mexeu em `firmware/`)
-- [ ] Testei sem a placa com `bar/ar-gree simulate`, ou com o ESP32 de verdade
+- [ ] Testei sem a placa com `bar/xfria simulate`, ou com o ESP32 de verdade

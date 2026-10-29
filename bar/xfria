@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # Fala com o ar-condicionado pelo Adafruit IO.
 #
-#   ar-gree watch            imprime "state <json>" e "online <online|offline>" a cada mudança
-#   ar-gree send '<json>'    envia um comando, ex.: ar-gree send '{"power": true, "temp": 22}'
-#   ar-gree simulate         finge ser o ESP32, para testar sem a placa
+#   xfria watch            imprime "state <json>" e "online <online|offline>" a cada mudança
+#   xfria send '<json>'    envia um comando, ex.: xfria send '{"power": true, "temp": 22}'
+#   xfria simulate         finge ser o ESP32, para testar sem a placa
 #
-# Credenciais em ~/.config/ir-blaster-gree/credentials (AIO_USERNAME e AIO_KEY).
+# Credenciais em ~/.config/xfria/credentials (AIO_USERNAME e AIO_KEY).
 set -euo pipefail
 
-source "${XDG_CONFIG_HOME:-$HOME/.config}/ir-blaster-gree/credentials"
+source "${XDG_CONFIG_HOME:-$HOME/.config}/xfria/credentials"
 
 readonly FEEDS="$AIO_USERNAME/feeds/ar-quarto"
 readonly MQTT=(-h io.adafruit.com -p 8883 --cafile /etc/ssl/certs/DigiCert_Global_Root_G2.pem

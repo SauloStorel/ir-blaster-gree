@@ -2,6 +2,8 @@
 
 #include <ir_Gree.h>
 
+#include "secrets.h"
+
 // Pino que aciona o transistor do LED IR.
 constexpr uint16_t kIrLedPin = 4;
 
@@ -13,8 +15,7 @@ constexpr bool kBrownoutDetector = false;
 // Variante do protocolo Gree, confirmada lendo o controle original com receptor_ir/.
 constexpr gree_ac_remote_model_t kGreeModel = gree_ac_remote_model_t::YAW1F;
 
-// Adafruit IO: cada tópico é um feed no formato <usuário>/feeds/<chave-do-feed>.
-#define AIO_USERNAME "saulostorel"
+// Adafruit IO: cada tópico é um feed no formato <usuário>/feeds/<chave-do-feed>. O usuário fica no secrets.h.
 #define DEVICE_ID "ar-quarto"
 #define FEED_PREFIX AIO_USERNAME "/feeds/" DEVICE_ID "-"
 

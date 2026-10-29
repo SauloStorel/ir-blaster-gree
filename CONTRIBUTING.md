@@ -10,7 +10,7 @@ Obrigado por querer ajudar no Xfria. Issues e pull requests são bem-vindos.
 ## Como mandar uma mudança
 
 1. Faça um fork do repositório e crie uma branch a partir da `main`.
-2. Rode localmente seguindo a [Instalação](README.md#instalação) do README. Não precisa da placa: `bar/ar-gree simulate` finge ser o ESP32, e `/painel?demo` abre o painel com um ar simulado.
+2. Rode localmente seguindo a [Instalação](README.md#instalação) do README. Não precisa da placa: `bar/xfria simulate` finge ser o ESP32, e `/painel?demo` abre o painel com um ar simulado.
 3. Antes de abrir a PR, rode `npm run build:web` em `app/` e, se mexeu no firmware, compile com `arduino-cli compile --profile esp32 .` em `firmware/`.
 4. Abra a pull request explicando o que mudou e por quê. Se mexer na interface, coloque um print.
 
