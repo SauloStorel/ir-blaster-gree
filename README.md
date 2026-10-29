@@ -1,11 +1,30 @@
-# Xfria
+<p align="center"><img src="docs/banner.png" alt="Xfria"></p>
 
-IR blaster Wi-Fi para ar-condicionado Gree. Identidade visual (logos, ícones, cores, guia) em `marca/`.
+**Xfria** liga, desliga e ajusta um ar-condicionado Gree pelo computador e pelo celular, de qualquer lugar. Site: <https://xfria.storell.dev.br>
 
-Controle de um ar-condicionado Gree de qualquer lugar, usando um ESP32 que imita o controle
-remoto infravermelho e um app web próprio.
+Um ESP32 em casa faz o papel do controle remoto infravermelho e conversa com o painel por MQTT, no plano gratuito do Adafruit IO. O painel roda no Windows, no Linux (aberto pela barra do Omarchy) e no celular como app web, e o custo mensal é R$ 0.
 
-## Arquitetura
+![Apresentação do Xfria](docs/site.png)
+
+## Por que existe
+
+O controle remoto some, fica no outro cômodo ou acaba a pilha, e o ar não tem Wi-Fi. Em vez de trocar o aparelho, o Xfria imita o controle original: um LED infravermelho de poucos reais, um ESP32 e um painel próprio, sem nuvem paga, sem abrir porta no roteador e sem app de fabricante.
+
+## O que tem
+
+- **Painel completo**: liga e desliga, temperatura de 16 a 30 °C, modo (automático, frio, desumidificar, ventilar, quente), ventilação e oscilar. No menu "•••", turbo, sono, eco, luz do display, posição da aleta e a conta do Adafruit IO.
+- **No computador**: app [Tauri](https://tauri.app) que abre colado no ícone da bandeja (Windows) ou da barra (Linux), inicia com o sistema escondido e tem instalador gerado pelo GitHub Actions.
+- **No celular**: o mesmo painel como app web em `/painel`; é só "Adicionar à tela inicial".
+- **Barra do Omarchy**: ícone com o modo e a temperatura. Clique abre o painel, botão direito liga e desliga, rolar sobe e desce a temperatura.
+- **Estado de verdade**: o ESP32 publica o estado depois de cada comando e avisa quando fica offline, então todos os painéis mostram a mesma coisa.
+- **Não perde o estado**: o último estado fica na flash do ESP32 e volta depois de uma queda de energia.
+- **Atualização pelo Wi-Fi**: depois da primeira gravação pelo cabo, o firmware novo vai pela rede, com senha, sem tirar a placa do lugar.
+- **Caixa para imprimir**: projetos em FreeCAD, STEP e STL em `hardware/caixa/`.
+- **Demonstração sem placa**: `/painel?demo` abre o painel com um ar simulado, e `bar/ar-gree simulate` finge ser o ESP32.
+
+![Painel com o ar ligado em 22 °C](docs/painel.png)
+
+## Como funciona
 
 ```
 Celular (de qualquer lugar)
@@ -19,6 +38,15 @@ Broker MQTT (Adafruit IO, grátis)  ◄── MQTT ── Plugin na barra do Oma
    │
 ESP32 em casa ──IR──► Ar Gree
 ```
+
+- O protocolo do Gree é decodificado pela biblioteca
+  [IRremoteESP8266](https://github.com/crankyoldgit/IRremoteESP8266) (classe `IRGreeAC`).
+  Cada comando envia o estado completo: liga/desliga, modo, temperatura, ventilação e swing.
+- O IR é de mão única (o ar não confirma o recebimento). O sensor de temperatura mostra no
+  app a temperatura real do cômodo.
+- Os agendamentos rodam no próprio ESP32, com o relógio sincronizado via NTP.
+- O ESP32 guarda o último estado na flash, para não perder o estado numa queda de energia.
+- O MQTT vai direto do painel para o Adafruit IO por WebSocket; não existe servidor próprio.
 
 ### Tópicos MQTT (feeds do Adafruit IO)
 
@@ -37,15 +65,6 @@ Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `
 `airflow` = `swing`, `up`, `middle`, `down`; `sleep`, `eco` e `turbo` = `true`/`false`;
 `temp` = 16 a 30.
 
-- O protocolo do Gree é decodificado pela biblioteca
-  [IRremoteESP8266](https://github.com/crankyoldgit/IRremoteESP8266) (classe `IRGreeAC`).
-  Cada comando envia o estado completo: liga/desliga, modo, temperatura, ventilação e swing.
-- O IR é de mão única (o ar não confirma o recebimento). O sensor de temperatura mostra no
-  app a temperatura real do cômodo.
-- Os agendamentos rodam no próprio ESP32, com o relógio sincronizado via NTP.
-- O ESP32 guarda o último estado na flash, para não perder o estado numa queda de energia.
-- Custo mensal: R$ 0.
-
 ## Peças
 
 | Peça | Status |
@@ -61,7 +80,7 @@ Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `
 | Placa Arduino (testes de IR antes do ESP32 chegar) | tem |
 | Cabo USB-C de dados e carregador USB 5 V | tem |
 
-## Ligações
+### Ligações
 
 | Componente | Pino | ESP32 |
 |---|---|---|
@@ -71,7 +90,11 @@ Valores: `mode` = `auto`, `cool`, `dry`, `fan`, `heat`; `fan` = `auto`, `low`, `
 
 O emissor (LED IR + transistor, no GPIO 4) será detalhado na montagem.
 
-## Firmware
+## Instalação
+
+Você vai precisar de uma conta gratuita no [Adafruit IO](https://io.adafruit.com) (com os feeds da tabela acima), do [arduino-cli](https://arduino.github.io/arduino-cli/) para o firmware e do Node.js 22 ou mais novo para o painel.
+
+### 1. Firmware
 
 Em `firmware/`, compilado com `arduino-cli` (versões fixadas em `sketch.yaml`):
 
@@ -92,18 +115,6 @@ firmware/ota-upload 192.168.18.206   # ou pelo IP, se o nome .local não resolve
 O ESP32 baixa o firmware conectando de volta no computador, na porta 32323. Com o ufw ativo, libere
 essa porta para a rede de casa uma vez: `sudo ufw allow from 192.168.18.0/24 to any port 32323 proto tcp`.
 
-| Arquivo | Responsabilidade |
-|---|---|
-| `firmware.ino` | liga as peças: comando recebido → IR → publica o estado |
-| `ac_state` | estado do ar e conversão de/para JSON |
-| `gree_remote` | monta e envia o sinal IR do Gree |
-| `state_store` | guarda o último estado na flash |
-| `connection` | Wi-Fi, MQTT com TLS, reconexão e last will |
-| `ota` | atualização do firmware pelo Wi-Fi, com senha (`ota-upload`) |
-| `config.h` | pinos, modelo Gree, broker e tópicos |
-| `ca_cert.h` | certificado raiz do TLS (DigiCert Global Root G2) |
-| `receptor_ir/` | sketch à parte que lê o controle original e mostra o modelo Gree |
-
 Para confirmar o `kGreeModel`, grave o leitor e aperte botões do controle apontado para o receptor:
 
 ```sh
@@ -112,11 +123,27 @@ arduino-cli compile --upload --profile esp32 -p /dev/ttyUSB0 .
 arduino-cli monitor -p /dev/ttyUSB0 -c baudrate=115200
 ```
 
-## Barra do Omarchy
+### 2. Painel no computador
+
+- **Linux:** `app/install` compila e instala em `~/.local/bin/ar-gree-panel`. O clique no ícone da barra
+  do Omarchy abre e fecha o painel no canto superior direito (regra de janela `ar-gree(-panel)?` em
+  `~/.config/hypr/hyprland.lua`).
+- **Windows:** o instalador é gerado pelo GitHub Actions (`.github/workflows/windows-installer.yml`) a cada
+  push em `main` que mexa em `app/`, ou manualmente na aba Actions. Ele fica nos artefatos da execução
+  (`instalador-windows`). O painel fica no ícone da bandeja; clique abre colado nele, e o menu tem "Sair".
+  O app passa a iniciar com o sistema, escondido na bandeja, já na primeira vez que abre; a opção
+  "Iniciar com o sistema" do menu "•••" desliga isso.
+
+As credenciais ficam em `~/.config/ir-blaster-gree/credentials` (`AIO_USERNAME` e `AIO_KEY`, modo 600;
+no Windows, em `%APPDATA%\ir-blaster-gree\credentials`). Sem esse arquivo, o painel abre na tela de configuração.
+
+No Linux com NVIDIA, a janela é opaca de propósito: com transparência o WebKitGTK não desenha o conteúdo.
+Os cantos arredondados vêm da regra do Hyprland.
+
+### 3. Barra do Omarchy
 
 Em `bar/`: um plugin da barra (`storell.ar-gree`) e o script `ar-gree`, que ele usa para falar com
-o Adafruit IO. As credenciais ficam em `~/.config/ir-blaster-gree/credentials` (`AIO_USERNAME` e
-`AIO_KEY`, modo 600).
+o Adafruit IO, lendo o mesmo arquivo de credenciais do painel.
 
 | Na barra | Ação |
 |---|---|
@@ -136,42 +163,55 @@ bar/ar-gree send '{"power": true}'        # manda um comando pelo terminal
 bar/ar-gree watch                         # mostra o estado em tempo real
 ```
 
-## Painel (Windows, Linux e celular)
+### 4. Celular e site
 
-Em `app/`: um app [Tauri](https://tauri.app) com o painel "meu canto": liga/desliga, temperatura,
-modo, ventilação e oscilar; no menu "•••", turbo, sono, eco, luz do display, posição da aleta e a conta do Adafruit. O visual é HTML/CSS/JS em `app/src/`, e o MQTT vai direto do painel
-para o Adafruit IO por WebSocket.
-
-- **Linux:** clique no ícone da barra do Omarchy abre e fecha o painel no canto superior direito
-  (regra de janela `ar-gree(-panel)?` em `~/.config/hypr/hyprland.lua`).
-- **Windows:** ícone na bandeja; clique abre o painel colado nele, e o menu tem "Sair".
-- As credenciais ficam no mesmo arquivo do script `ar-gree` (no Windows, em
-  `%APPDATA%\ir-blaster-gree\credentials`). Sem esse arquivo, o painel abre na tela de configuração.
-
-```sh
-app/install                 # Linux: compila e instala em ~/.local/bin/ar-gree-panel
-```
-
-O instalador do Windows é gerado pelo GitHub Actions (`.github/workflows/windows-installer.yml`) a cada
-push em `main` que mexa em `app/`, ou manualmente na aba Actions. Ele fica nos artefatos da execução
-(`instalador-windows`). No Windows, o app passa a iniciar com o sistema, escondido na bandeja, já na
-primeira vez que abre; a opção "Iniciar com o sistema" do menu "•••" desliga isso.
-
-**Site (Xfria):** publicado na Vercel a partir de `app/` (`vercel.json`), em https://xfria.storell.dev.br.
+O site é publicado na Vercel a partir de `app/` (`vercel.json`), em <https://xfria.storell.dev.br>.
 A raiz é a apresentação (`app/index.html` e `app/site/`), com o painel de verdade numa demonstração com ar
 simulado (`/painel?demo`, em `app/src/demo.js`). O painel em si fica em `/painel` (`app/painel.html`), que
 também é a página que o Tauri abre: no celular, abra `/painel` e use "Adicionar à tela inicial"; as
 credenciais ficam só naquele navegador.
-O que muda entre as versões mora em `app/src/platform/` (`desktop.js` com o Tauri, `web.js` com o
-navegador), escolhido pelo modo do Vite.
+
+## Rodando localmente
 
 ```sh
-npm run dev:web             # em app/: versão do celular na rede local (porta 1420)
+cd app
+npm install
+npm run dev:web             # versão do celular na rede local (porta 1420)
 npm run build:web           # gera app/dist-web/
 ```
 
-No Linux com NVIDIA, a janela é opaca de propósito: com transparência o WebKitGTK não desenha o conteúdo.
-Os cantos arredondados vêm da regra do Hyprland.
+Para testar sem a placa, deixe `bar/ar-gree simulate` rodando num terminal: ele responde aos comandos
+como o ESP32 faria. Ou abra <http://localhost:1420/painel?demo>, que não precisa nem do Adafruit IO.
+
+## Limites
+
+- **Só Gree**: o firmware fala o protocolo `IRGreeAC`. Outras marcas precisam de outra classe da IRremoteESP8266.
+- **Um ar por placa**: cada ESP32 controla o aparelho para o qual o LED aponta, e os tópicos são de um cômodo só.
+- **IR sem confirmação**: se alguém mexer no controle original, o painel não fica sabendo.
+- **Plano grátis do Adafruit IO**: até 30 mensagens por minuto e 10 feeds; por isso a rolagem na barra espera
+  0,7 s antes de mandar a temperatura.
+- **Interface só em português.**
+
+## Estrutura
+
+| Arquivo | O que faz |
+|---|---|
+| `firmware/firmware.ino` | liga as peças: comando recebido → IR → publica o estado |
+| `firmware/ac_state` | estado do ar e conversão de/para JSON |
+| `firmware/gree_remote` | monta e envia o sinal IR do Gree |
+| `firmware/state_store` | guarda o último estado na flash |
+| `firmware/connection` | Wi-Fi, MQTT com TLS, reconexão e last will |
+| `firmware/ota` | atualização do firmware pelo Wi-Fi, com senha (`ota-upload`) |
+| `firmware/config.h` | pinos, modelo Gree, broker e tópicos |
+| `firmware/ca_cert.h` | certificado raiz do TLS (DigiCert Global Root G2) |
+| `firmware/receptor_ir/` | sketch à parte que lê o controle original e mostra o modelo Gree |
+| `app/src/` | painel em HTML, CSS e JS, comum ao computador e ao celular |
+| `app/src/platform/` | o que muda entre as versões: `desktop.js` (Tauri) e `web.js` (navegador), escolhido pelo modo do Vite |
+| `app/src-tauri/` | janela, bandeja, credenciais e início com o sistema |
+| `app/site/` | página de apresentação |
+| `bar/` | plugin da barra do Omarchy e o script `ar-gree` |
+| `hardware/caixa/` | caixa do ESP32 para impressão 3D |
+| `marca/` | identidade visual: logos, ícones, cores e guia |
 
 ## Onde paramos
 
@@ -185,3 +225,14 @@ Os cantos arredondados vêm da regra do Hyprland.
 - [x] App web/PWA para o celular (Xfria), reaproveitando o painel.
 - [ ] Fechar o pedido das peças e confirmar o transistor que tem em casa.
 - [ ] Quando o ESP32 chegar: ler o controle com o receptor para confirmar o modelo Gree (`kGreeModel`).
+
+## Contribuindo
+
+Issues e pull requests são bem-vindos. Dá para mexer no painel e no site sem ter a placa: a demonstração
+e o simulador fazem o papel do ESP32.
+
+Veja o [guia de contribuição](CONTRIBUTING.md) para o passo a passo. Para relatar uma falha de segurança, siga a [política de segurança](SECURITY.md).
+
+## Licença
+
+[MIT](LICENSE)

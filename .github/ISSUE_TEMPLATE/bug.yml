@@ -1,0 +1,43 @@
+name: Bug
+description: Algo não funciona como deveria
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: O que aconteceu
+      description: O que você fez, o que esperava e o que aconteceu de fato.
+    validations:
+      required: true
+  - type: dropdown
+    id: part
+    attributes:
+      label: Onde
+      options:
+        - Firmware (ESP32)
+        - Painel no computador (Windows ou Linux)
+        - Painel no celular ou site
+        - Barra do Omarchy
+        - Caixa (hardware)
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Como reproduzir
+      placeholder: |
+        1. Abri o painel
+        2. Mudei o modo para Frio
+        3. ...
+    validations:
+      required: true
+  - type: input
+    id: setup
+    attributes:
+      label: Sistema e modelo do ar
+      placeholder: Windows 11, ar Gree controle YAW1F
+  - type: textarea
+    id: extra
+    attributes:
+      label: Prints ou logs
+      description: Se tiver, cole aqui (o monitor serial ajuda muito). Não cole a chave do Adafruit IO nem a senha do Wi-Fi.
